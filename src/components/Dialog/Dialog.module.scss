@@ -1,0 +1,29 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(#000, 0.7);
+  z-index: 9;
+  height: 100vh;
+  width: 100vw;
+
+  &__container {
+    overflow: auto;
+    max-height: 80vh;
+  }
+}
+
+.fullWidth {
+  .dialog__container {
+    max-height: 100vh !important;
+  }
+}
+
+.item_center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

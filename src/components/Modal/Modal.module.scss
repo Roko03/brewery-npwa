@@ -1,0 +1,30 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.modal {
+  background-color: $white;
+  box-shadow: $box-shadow;
+  overflow: auto;
+
+  width: 90vw;
+
+  padding: rem-calc(32) rem-calc(24);
+  border-radius: rem-calc(6);
+}
+
+.small {
+  max-width: rem-calc(450);
+}
+.medium {
+  max-width: rem-calc(700);
+}
+.large {
+  max-width: rem-calc(900);
+}
+
+.fullWidth {
+  width: 100% !important;
+  max-width: 100vw !important;
+  height: 100vh;
+  border-radius: 0;
+}
