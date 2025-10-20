@@ -1,0 +1,153 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.beerList {
+  min-height: 100vh;
+  background-color: $grey;
+  padding: 2rem;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h1 {
+      font-size: 2rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $primary;
+      margin: 0;
+    }
+
+    .headerActions {
+      display: flex;
+      gap: 0.75rem;
+    }
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: $white;
+    border-radius: 8px;
+    box-shadow: $box-shadow;
+
+    .filterGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: $black;
+      }
+
+      select {
+        padding: 0.5rem;
+        border: 1px solid $grey;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        background: $white;
+        cursor: pointer;
+        transition: border-color $animation-duration-fast;
+
+        &:focus {
+          outline: none;
+          border-color: $primary;
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.25rem;
+    color: $black;
+  }
+
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    .fullWidth {
+      grid-column: 1 / -1;
+    }
+
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: $black;
+      }
+
+      select {
+        padding: 0.75rem;
+        border: 1px solid $grey;
+        border-radius: 4px;
+        font-size: 1rem;
+        background: $white;
+        cursor: pointer;
+        transition: border-color $animation-duration-fast;
+
+        &:focus {
+          outline: none;
+          border-color: $primary;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .beerList {
+    padding: 1rem;
+
+    .header {
+      flex-direction: column;
+
+      .headerActions {
+        width: 100%;
+
+        button {
+          flex: 1;
+        }
+      }
+    }
+
+    .filters {
+      grid-template-columns: 1fr;
+    }
+
+    .formGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

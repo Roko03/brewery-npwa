@@ -2,9 +2,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
-import AuthService from "@/services/auth.service";
 import styles from "./Login.module.scss";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
+import { useAuth } from "@/hooks/context/AuthContext";
 import Logo from "@/components/SvgIcons/Logo";
 import Button from "@/components/Button";
 
@@ -12,27 +12,32 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { showSnackbar } = useSnackbar();
+  const { login } = useAuth();
 
   const handleLogin = async (data, methods) => {
     try {
       setLoading(true);
-      const response = await AuthService.login({
+      const response = await login({
         email: data.email,
         password: data.password,
       });
 
-      if (response.error) {
-        showSnackbar("error", response.error || "Greška pri prijavi");
-        return;
-      }
-
       if (!response.success) {
-        showSnackbar("error", "Pogrešna email adresa ili lozinka");
+        showSnackbar(
+          "error",
+          response.error || "Pogrešna email adresa ili lozinka"
+        );
         return;
       }
 
       showSnackbar("success", "Uspješna prijava!");
-      navigate("/");
+
+      // Role-based redirect
+      if (response.user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       showSnackbar("error", "Greška pri prijavi");
     } finally {

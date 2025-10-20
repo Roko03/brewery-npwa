@@ -2,39 +2,43 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
-import AuthService from "@/services/auth.service";
 import styles from "./Register.module.scss";
+import { useSnackbar } from "@/hooks/context/SnackbarContext";
+import { useAuth } from "@/hooks/context/AuthContext";
 import Logo from "@/components/SvgIcons/Logo";
 import Button from "@/components/Button";
 
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { showSnackbar } = useSnackbar();
+  const { register } = useAuth();
 
   const handleRegister = async (data, methods) => {
     try {
       setLoading(true);
 
-      const response = await AuthService.register({
+      const response = await register({
         username: data.username,
         email: data.email,
         password: data.password,
       });
 
-      if (response.error) {
-        toast.error(response.error || "Greška pri registraciji");
-        return;
-      }
-
       if (!response.success) {
-        toast.error("Greška pri registraciji");
+        showSnackbar("error", response.error || "Greška pri registraciji");
         return;
       }
 
-      toast.success("Uspješna registracija! Prijavite se.");
-      navigate("/login");
+      showSnackbar("success", "Uspješna registracija!");
+
+      // Role-based redirect
+      if (response.user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
-      toast.error("Greška pri registraciji");
+      showSnackbar("error", "Greška pri registraciji");
     } finally {
       setLoading(false);
     }

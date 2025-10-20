@@ -1,0 +1,84 @@
+@use "@/styles/settings/variables" as *;
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/mixins/breakpoints" as *;
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: $white;
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .info {
+    color: $black;
+    font-size: 0.875rem;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .pages {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+
+      .pageButton {
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0.5rem;
+        border: 1px solid $grey;
+        background: $white;
+        color: $black;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all $animation-duration-fast;
+        font-weight: 500;
+
+        &:hover:not(:disabled) {
+          background: $light-blue;
+          color: $white;
+          border-color: $light-blue;
+        }
+
+        &.active {
+          background: $primary;
+          color: $white;
+          border-color: $primary;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .ellipsis {
+        padding: 0.5rem;
+        color: $black;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .pagination {
+    flex-direction: column;
+
+    .info {
+      width: 100%;
+      text-align: center;
+    }
+
+    .controls {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

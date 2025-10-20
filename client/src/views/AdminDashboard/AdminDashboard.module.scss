@@ -1,0 +1,118 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.adminDashboard {
+  min-height: 100vh;
+  background-color: $grey;
+  padding: 2rem;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 1.125rem;
+      color: $primary;
+      margin: 0;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: $white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+    text-decoration: none;
+    transition: all $animation-duration-normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 4px 8px 0px,
+        rgba(60, 64, 67, 0.15) 0px 8px 16px 4px;
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: $black;
+      margin: 0;
+      opacity: 0.7;
+    }
+
+    &.blue {
+      border-top: 4px solid $primary;
+
+      &:hover {
+        border-top-color: $light-blue;
+      }
+    }
+
+    &.green {
+      border-top: 4px solid $green;
+
+      &:hover {
+        border-top-color: $light-green;
+      }
+    }
+
+    &.yellow {
+      border-top: 4px solid $yellow;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &.red {
+      border-top: 4px solid $red;
+
+      &:hover {
+        border-top-color: $light-red;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .adminDashboard {
+    padding: 1rem;
+
+    .header h1 {
+      font-size: 2rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

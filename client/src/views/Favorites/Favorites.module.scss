@@ -1,0 +1,168 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.favorites {
+  min-height: 100vh;
+  background-color: $grey;
+  padding: 2rem;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h1 {
+      font-size: 2rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $primary;
+      margin: 0;
+    }
+
+    .headerActions {
+      display: flex;
+      gap: 0.75rem;
+    }
+  }
+
+  .empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: $white;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+
+    .emptyIcon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $black;
+      opacity: 0.7;
+      margin: 0 0 2rem 0;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: $white;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+    transition: transform $animation-duration-normal;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 4px 8px 0px,
+        rgba(60, 64, 67, 0.15) 0px 8px 16px 4px;
+    }
+
+    .imageContainer {
+      width: 100%;
+      height: 200px;
+      background: $grey;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .content {
+      padding: 1.5rem;
+
+      h3 {
+        font-size: 1.25rem;
+        color: $black;
+        margin: 0 0 1rem 0;
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+
+        p {
+          font-size: 0.875rem;
+          color: $black;
+          margin: 0;
+
+          strong {
+            color: $primary;
+          }
+        }
+
+        .price {
+          font-size: 1rem;
+          font-weight: 600;
+          color: $green;
+        }
+      }
+
+      .description {
+        font-size: 0.875rem;
+        color: $black;
+        opacity: 0.7;
+        margin: 0 0 1rem 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .favorites {
+    padding: 1rem;
+
+    .header {
+      flex-direction: column;
+
+      .headerActions {
+        width: 100%;
+
+        button {
+          flex: 1;
+        }
+      }
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

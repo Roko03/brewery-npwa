@@ -1,5 +1,6 @@
-@use "@/styles/utils/rem-calc" as *;
 @use "@/styles/settings/variables" as *;
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/mixins/breakpoints" as *;
 
 .loadingContainer {
   display: flex;

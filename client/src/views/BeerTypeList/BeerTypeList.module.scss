@@ -1,0 +1,70 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.beerTypeList {
+  min-height: 100vh;
+  background-color: $grey;
+  padding: 2rem;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h1 {
+      font-size: 2rem;
+      color: $black;
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $primary;
+      margin: 0;
+    }
+
+    .headerActions {
+      display: flex;
+      gap: 0.75rem;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.25rem;
+    color: $black;
+  }
+}
+
+@media (max-width: 768px) {
+  .beerTypeList {
+    padding: 1rem;
+
+    .header {
+      flex-direction: column;
+
+      .headerActions {
+        width: 100%;
+
+        button {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

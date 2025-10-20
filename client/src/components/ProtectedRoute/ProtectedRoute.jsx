@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/context/AuthContext";
 import styles from "./ProtectedRoute.module.scss";
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   }
 
   if (requireAdmin && !isAdmin) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/403" replace />;
   }
 
   return <>{children}</>;
