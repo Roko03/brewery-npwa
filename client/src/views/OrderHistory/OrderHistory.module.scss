@@ -1,0 +1,228 @@
+@use "@/styles/settings/variables" as *;
+@use "@/styles/utils/rem-calc" as *;
+
+.orderHistory {
+  min-height: 100vh;
+  background-color: white;
+}
+
+.main {
+  padding: rem-calc(40) rem-calc(20);
+  max-width: rem-calc(1200);
+  margin: 0 auto;
+}
+
+.loading {
+  text-align: center;
+  padding: rem-calc(60);
+  font-size: rem-calc(18);
+  color: black;
+}
+
+.container {
+  max-width: rem-calc(900);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: rem-calc(32);
+
+  h1 {
+    font-size: rem-calc(32);
+    color: $primary;
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: rem-calc(60);
+  background: white;
+  border-radius: rem-calc(12);
+  box-shadow: 0 rem-calc(2) rem-calc(8) rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: rem-calc(24);
+    color: black;
+    margin-bottom: rem-calc(16);
+  }
+
+  p {
+    color: $primary;
+    margin-bottom: rem-calc(24);
+  }
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: rem-calc(16);
+}
+
+.orderCard {
+  background: white;
+  border-radius: rem-calc(12);
+  padding: rem-calc(20);
+  box-shadow: 0 rem-calc(2) rem-calc(8) rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(rem-calc(-2));
+    box-shadow: 0 rem-calc(4) rem-calc(12) rgba(0, 0, 0, 0.15);
+  }
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderInfo {
+  h3 {
+    font-size: rem-calc(18);
+    color: $primary;
+    margin-bottom: rem-calc(4);
+  }
+}
+
+.orderDate {
+  font-size: rem-calc(14);
+  color: $primary;
+}
+
+.orderMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: rem-calc(8);
+}
+
+.status {
+  padding: rem-calc(4) rem-calc(12);
+  border-radius: rem-calc(12);
+  font-size: rem-calc(12);
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  &.status-failed {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  &.status-refunded {
+    background: #e0e7ff;
+    color: #3730a3;
+  }
+}
+
+.total {
+  font-size: rem-calc(20);
+  font-weight: bold;
+  color: $primary;
+}
+
+.orderDetails {
+  margin-top: rem-calc(20);
+  padding-top: rem-calc(20);
+  border-top: rem-calc(1) solid $primary;
+
+  h4 {
+    font-size: rem-calc(16);
+    margin-bottom: rem-calc(16);
+    color: black;
+  }
+}
+
+.orderItems {
+  display: flex;
+  flex-direction: column;
+  gap: rem-calc(12);
+  margin-bottom: rem-calc(16);
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: rem-calc(16);
+  padding: rem-calc(12);
+  background: white;
+  border-radius: rem-calc(8);
+}
+
+.itemImage {
+  width: rem-calc(60);
+  height: rem-calc(60);
+  object-fit: cover;
+  border-radius: rem-calc(6);
+}
+
+.itemDetails {
+  flex: 1;
+
+  h5 {
+    font-size: rem-calc(15);
+    color: black;
+    margin-bottom: rem-calc(4);
+  }
+
+  .producer,
+  .type {
+    font-size: rem-calc(13);
+    color: $primary;
+    margin: rem-calc(2) 0;
+  }
+}
+
+.itemQuantity {
+  font-size: rem-calc(14);
+  color: black;
+  font-weight: 600;
+}
+
+.itemPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: rem-calc(4);
+
+  .unitPrice {
+    font-size: rem-calc(13);
+    color: $primary;
+  }
+
+  .subtotal {
+    font-size: rem-calc(16);
+    font-weight: bold;
+    color: $primary;
+  }
+}
+
+.orderSummary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: rem-calc(16);
+  padding-top: rem-calc(12);
+  border-top: rem-calc(1) solid $primary;
+  font-size: rem-calc(16);
+  font-weight: 600;
+
+  .totalAmount {
+    font-size: rem-calc(20);
+    color: $primary;
+  }
+}

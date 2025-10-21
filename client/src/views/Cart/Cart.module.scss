@@ -1,0 +1,260 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.cart {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.main {
+  padding: 2rem 0 4rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: #1a1a1a;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1rem;
+    color: #1a1a1a;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0 0 2rem;
+  }
+}
+
+.cartItems {
+  margin-bottom: 2rem;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
+.itemImage {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.itemDetails {
+  flex: 1;
+  min-width: 0;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+}
+
+.producer {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+}
+
+.itemInfo {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  span {
+    padding: 0.25rem 0.75rem;
+    background: #f0f0f0;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #555;
+  }
+}
+
+.itemQuantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantityBtn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    border-color: #667eea;
+    color: #667eea;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.quantity {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.itemPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 100px;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+  }
+}
+
+.unitPrice {
+  font-size: 0.85rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.totalPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #fee;
+  color: #e53e3e;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #e53e3e;
+    color: white;
+  }
+}
+
+.cartSummary {
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  margin-left: auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1rem;
+  color: #666;
+
+  &.total {
+    border-bottom: none;
+    border-top: 2px solid #667eea;
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+
+    span:last-child {
+      color: #667eea;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}

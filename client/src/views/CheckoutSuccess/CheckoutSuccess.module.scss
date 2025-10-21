@@ -1,0 +1,78 @@
+@use "@/styles/settings/variables" as *;
+@use "@/styles/utils/rem-calc" as *;
+
+.checkoutSuccess {
+  min-height: 100vh;
+  background-color: black;
+}
+
+.main {
+  padding: rem-calc(40) rem-calc(20);
+  max-width: rem-calc(1200);
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.successCard {
+  background: white;
+  border-radius: rem-calc(12);
+  padding: rem-calc(48) rem-calc(32);
+  box-shadow: 0 rem-calc(4) rem-calc(12) rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: rem-calc(600);
+  width: 100%;
+}
+
+.icon {
+  width: rem-calc(80);
+  height: rem-calc(80);
+  background: green;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: rem-calc(48);
+  margin: 0 auto rem-calc(24);
+  font-weight: bold;
+}
+
+.successCard h1 {
+  color: $primary;
+  font-size: rem-calc(32);
+  margin-bottom: rem-calc(16);
+}
+
+.successCard p {
+  color: black;
+  font-size: rem-calc(16);
+  margin-bottom: rem-calc(16);
+}
+
+.sessionId {
+  background: whitesmoke;
+  padding: rem-calc(12);
+  border-radius: rem-calc(8);
+  font-size: rem-calc(14);
+  margin-top: rem-calc(24);
+
+  code {
+    font-family: monospace;
+    color: $primary;
+    word-break: break-all;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: rem-calc(16);
+  justify-content: center;
+  margin-top: rem-calc(32);
+  flex-wrap: wrap;
+}

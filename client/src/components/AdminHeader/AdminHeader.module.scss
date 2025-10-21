@@ -1,0 +1,150 @@
+@use "@/styles/settings/variables" as *;
+@use "@/styles/utils/rem-calc" as *;
+
+.adminHeader {
+  background: white;
+  border-bottom: rem-calc(1) solid $primary;
+  box-shadow: 0 rem-calc(2) rem-calc(4) rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: rem-calc(1400);
+  margin: 0 auto;
+  padding: rem-calc(16) rem-calc(24);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem-calc(24);
+}
+
+.brand {
+  flex-shrink: 0;
+}
+
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+
+  h1 {
+    font-size: rem-calc(20);
+    color: $primary;
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.nav {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem-calc(24);
+}
+
+.navLinks {
+  display: flex;
+  gap: rem-calc(4);
+  flex-wrap: wrap;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: rem-calc(6);
+  padding: rem-calc(8) rem-calc(12);
+  border-radius: rem-calc(8);
+  text-decoration: none;
+  color: darken($primary, 10%);
+  font-size: rem-calc(14);
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: $primary;
+    color: black;
+  }
+
+  &.active {
+    background: $primary;
+    color: white;
+
+    .icon {
+      filter: none;
+    }
+  }
+}
+
+.icon {
+  font-size: rem-calc(16);
+  filter: grayscale(0.3);
+}
+
+.label {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: rem-calc(12);
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: rem-calc(14);
+  color: $primary;
+  font-weight: 600;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: rem-calc(16);
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: rem-calc(12);
+  }
+
+  .navLinks {
+    justify-content: center;
+  }
+
+  .userActions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .navLink {
+    padding: rem-calc(8) rem-calc(12);
+
+    .icon {
+      font-size: rem-calc(18);
+    }
+  }
+}

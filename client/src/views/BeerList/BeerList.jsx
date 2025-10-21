@@ -12,6 +12,8 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import AdminHeader from "@/components/AdminHeader";
+import Header from "@/components/Header";
 import styles from "./BeerList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -272,19 +274,12 @@ const BeerList = () => {
 
   return (
     <div className={styles.beerList}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <div>
+      {isAdmin ? <AdminHeader /> : <Header />}
+
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <header className={styles.header}>
             <h1>Piva</h1>
-            <p>{isAdmin ? "Upravljanje pivima" : "Pregled piva"}</p>
-          </div>
-          <div className={styles.headerActions}>
-            <Button
-              variant="secondary"
-              onClick={() => navigate(isAdmin ? "/admin" : "/")}
-            >
-              Natrag
-            </Button>
             {!isAdmin && (
               <Button variant="primary" onClick={() => navigate("/favorites")}>
                 Lista želja ({wishlist.length})
@@ -295,8 +290,8 @@ const BeerList = () => {
                 Dodaj Pivo
               </Button>
             )}
-          </div>
-        </header>
+          </header>
+        </div>
 
         <div className={styles.filters}>
           <div className={styles.filterGroup}>
@@ -511,7 +506,7 @@ const BeerList = () => {
             </Form>
           </FormModal>
         )}
-      </div>
+      </main>
     </div>
   );
 };

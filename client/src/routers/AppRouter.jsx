@@ -11,7 +11,11 @@ import BeerList from "@/views/BeerList";
 import BeerTypeList from "@/views/BeerTypeList";
 import BeerColorList from "@/views/BeerColorList";
 import ProducerList from "@/views/ProducerList";
+import UserList from "@/views/UserList";
 import Favorites from "@/views/Favorites";
+import Cart from "@/views/Cart";
+import CheckoutSuccess from "@/views/CheckoutSuccess";
+import OrderHistory from "@/views/OrderHistory";
 import Error403 from "@/views/Error403";
 import Error404 from "@/views/Error404";
 
@@ -55,6 +59,30 @@ const AppRouter = () => (
           }
         />
         <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkout/success"
+          element={
+            <ProtectedRoute>
+              <CheckoutSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrderHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin"
           element={
             <ProtectedRoute requireAdmin={true}>
@@ -91,6 +119,14 @@ const AppRouter = () => (
           element={
             <ProtectedRoute requireAdmin={true}>
               <ProducerList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute requireAdmin={true}>
+              <UserList />
             </ProtectedRoute>
           }
         />

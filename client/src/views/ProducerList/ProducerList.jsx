@@ -8,6 +8,7 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import AdminHeader from "@/components/AdminHeader";
 import styles from "./ProducerList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -145,21 +146,16 @@ const ProducerList = () => {
 
   return (
     <div className={styles.producerList}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <div>
+      <AdminHeader />
+
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <header className={styles.header}>
             <h1>Proizvođači</h1>
-            <p>Upravljanje proizvođačima piva</p>
-          </div>
-          <div className={styles.headerActions}>
-            <Button variant="secondary" onClick={() => navigate("/admin")}>
-              Natrag
-            </Button>
             <Button variant="primary" onClick={handleCreate}>
-              Dodaj Proizvođača
+              + Novi Proizvođač
             </Button>
-          </div>
-        </header>
+          </header>
 
         <Table
           columns={columns}
@@ -217,7 +213,8 @@ const ProducerList = () => {
             />
           </Form>
         </FormModal>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

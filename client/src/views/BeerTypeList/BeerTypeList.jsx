@@ -7,6 +7,7 @@ import Table from "@/components/Table";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import AdminHeader from "@/components/AdminHeader";
 import styles from "./BeerTypeList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -117,21 +118,16 @@ const BeerTypeList = () => {
 
   return (
     <div className={styles.beerTypeList}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <div>
+      <AdminHeader />
+
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <header className={styles.header}>
             <h1>Tipovi Piva</h1>
-            <p>Upravljanje tipovima piva</p>
-          </div>
-          <div className={styles.headerActions}>
-            <Button variant="secondary" onClick={() => navigate("/admin")}>
-              Natrag
-            </Button>
             <Button variant="primary" onClick={handleCreate}>
-              Dodaj Tip
+              + Novi Tip
             </Button>
-          </div>
-        </header>
+          </header>
 
         <Table
           columns={columns}
@@ -169,7 +165,8 @@ const BeerTypeList = () => {
             />
           </Form>
         </FormModal>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

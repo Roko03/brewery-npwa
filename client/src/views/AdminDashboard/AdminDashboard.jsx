@@ -34,6 +34,13 @@ const AdminDashboard = () => {
       icon: "🏭",
       color: "red",
     },
+    {
+      title: "Korisnici",
+      description: "Upravljanje korisničkim računima",
+      link: "/admin/users",
+      icon: "👥",
+      color: "purple",
+    },
   ];
 
   return (
