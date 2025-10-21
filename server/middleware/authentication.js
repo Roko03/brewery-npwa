@@ -3,13 +3,20 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  // Try to get token from cookies first
+  let token = req.cookies.accessToken;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new UnauthenticatedError("Korisnik nije verificiran");
+  // If not in cookies, try Authorization header
+  if (!token) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
   }
 
-  const token = authHeader.split(" ")[1];
+  if (!token) {
+    throw new UnauthenticatedError("Korisnik nije verificiran");
+  }
 
   try {
     const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);

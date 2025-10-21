@@ -13,6 +13,7 @@ const producersRouter = require("./router/producers");
 const beerColorRouter = require("./router/beer/beerColor");
 const beerTypeRouter = require("./router/beer/beerType");
 const beerRouter = require("./router/beer/beer");
+const favoritesRouter = require("./router/favorites");
 
 const authenticationUser = require("./middleware/authentication");
 const roleAuthentication = require("./middleware/role-authentication");
@@ -58,6 +59,8 @@ app.use("/api/v1/beer-color", authenticationUser, beerColorRouter);
 app.use("/api/v1/beer-type", authenticationUser, beerTypeRouter);
 
 app.use("/api/v1/beer", authenticationUser, beerRouter);
+
+app.use("/api/v1/favorites", authenticationUser, favoritesRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
