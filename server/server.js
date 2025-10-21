@@ -14,6 +14,8 @@ const beerColorRouter = require("./router/beer/beerColor");
 const beerTypeRouter = require("./router/beer/beerType");
 const beerRouter = require("./router/beer/beer");
 const favoritesRouter = require("./router/favorites");
+const cartRouter = require("./router/cart");
+const orderRouter = require("./router/order");
 
 const authenticationUser = require("./middleware/authentication");
 const roleAuthentication = require("./middleware/role-authentication");
@@ -47,20 +49,20 @@ app.use(
   usersRouter
 );
 
-app.use(
-  "/api/v1/producers",
-  authenticationUser,
-  roleAuthentication(["ADMIN"]),
-  producersRouter
-);
+// Public GET access for producers (for filters)
+app.use("/api/v1/producers", producersRouter);
 
-app.use("/api/v1/beer-color", authenticationUser, beerColorRouter);
+app.use("/api/v1/beer-color", beerColorRouter);
 
-app.use("/api/v1/beer-type", authenticationUser, beerTypeRouter);
+app.use("/api/v1/beer-type", beerTypeRouter);
 
-app.use("/api/v1/beer", authenticationUser, beerRouter);
+app.use("/api/v1/beer", beerRouter);
 
 app.use("/api/v1/favorites", authenticationUser, favoritesRouter);
+
+app.use("/api/v1/cart", authenticationUser, cartRouter);
+
+app.use("/api/v1/orders", authenticationUser, orderRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -9,11 +9,21 @@ const {
   deleteProducer,
 } = require("../controllers/producers");
 
-router.route("/").get(getAllProducers).post(makeProducer);
+const authenticationUser = require("../middleware/authentication");
+const roleAuthentication = require("../middleware/role-authentication");
+
+// Public routes (for filters)
+router.route("/").get(getAllProducers);
+router.route("/:id").get(getProducer);
+
+// Admin-only routes
+router
+  .route("/")
+  .post(authenticationUser, roleAuthentication(["ADMIN"]), makeProducer);
+
 router
   .route("/:id")
-  .get(getProducer)
-  .put(updateProducer)
-  .delete(deleteProducer);
+  .put(authenticationUser, roleAuthentication(["ADMIN"]), updateProducer)
+  .delete(authenticationUser, roleAuthentication(["ADMIN"]), deleteProducer);
 
 module.exports = router;

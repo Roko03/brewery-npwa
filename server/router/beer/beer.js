@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const authenticationUser = require("../../middleware/authentication");
 const roleAuthentication = require("../../middleware/role-authentication");
 const {
   getAllBeers,
@@ -12,12 +13,12 @@ const {
 router
   .route("/")
   .get(getAllBeers)
-  .post(roleAuthentication(["ADMIN"]), makeBeer);
+  .post(authenticationUser, roleAuthentication(["ADMIN"]), makeBeer);
 
 router
   .route("/:id")
   .get(getBeer)
-  .put(roleAuthentication(["ADMIN"]), updateBeer)
-  .delete(roleAuthentication(["ADMIN"]), deleteBeer);
+  .put(authenticationUser, roleAuthentication(["ADMIN"]), updateBeer)
+  .delete(authenticationUser, roleAuthentication(["ADMIN"]), deleteBeer);
 
 module.exports = router;
