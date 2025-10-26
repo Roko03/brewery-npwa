@@ -20,7 +20,7 @@ const BeerColorList = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingColor, setEditingColor] = useState(null);
-  const [formData, setFormData] = useState({ name: "", hex_code: "" });
+  const [formData, setFormData] = useState({ name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -47,13 +47,13 @@ const BeerColorList = () => {
 
   const handleCreate = () => {
     setEditingColor(null);
-    setFormData({ name: "", hex_code: "" });
+    setFormData({ name: "" });
     setIsModalOpen(true);
   };
 
   const handleEdit = (color) => {
     setEditingColor(color);
-    setFormData({ name: color.name, hex_code: color.hex_code || "" });
+    setFormData({ name: color.name });
     setIsModalOpen(true);
   };
 
@@ -98,27 +98,6 @@ const BeerColorList = () => {
 
   const columns = [
     { key: "name", label: "Naziv" },
-    {
-      key: "hex_code",
-      label: "Boja",
-      render: (value) =>
-        value ? (
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <div
-              style={{
-                width: "24px",
-                height: "24px",
-                backgroundColor: value,
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-            />
-            <span>{value}</span>
-          </div>
-        ) : (
-          "-"
-        ),
-    },
   ];
 
   const renderActions = (row) => (
@@ -165,7 +144,7 @@ const BeerColorList = () => {
           confirmText="Spremi"
           cancelText="Odustani"
         >
-          <Form id="beer-color-form" onSubmit={handleSubmit}>
+          <Form id="beer-color-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingColor}>
             <FormInput
               label="Naziv"
               name="name"
@@ -174,15 +153,6 @@ const BeerColorList = () => {
                 setFormData({ ...formData, name: e.target.value })
               }
               required
-            />
-            <FormInput
-              label="Hex Kod Boje"
-              name="hex_code"
-              type="color"
-              value={formData.hex_code}
-              onChange={(e) =>
-                setFormData({ ...formData, hex_code: e.target.value })
-              }
             />
           </Form>
         </FormModal>

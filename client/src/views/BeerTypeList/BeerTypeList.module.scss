@@ -49,6 +49,33 @@
     font-size: 1.25rem;
     color: $black;
   }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: rem-calc(8);
+
+    label {
+      font-weight: 600;
+      font-size: rem-calc(14);
+      color: $black;
+    }
+
+    select {
+      padding: rem-calc(12);
+      border: 1px solid $grey;
+      border-radius: rem-calc(4);
+      font-size: rem-calc(16);
+      background: $white;
+      cursor: pointer;
+      transition: border-color $animation-duration-fast;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {

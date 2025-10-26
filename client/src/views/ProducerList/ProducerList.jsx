@@ -183,7 +183,7 @@ const ProducerList = () => {
           confirmText="Spremi"
           cancelText="Odustani"
         >
-          <Form id="producer-form" onSubmit={handleSubmit}>
+          <Form id="producer-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingProducer}>
             <FormInput
               label="Naziv"
               name="name"

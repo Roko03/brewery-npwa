@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/context/AuthContext";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import BeerTypeService from "@/services/beerType.service";
+import BeerColorService from "@/services/beerColor.service";
 import Table from "@/components/Table";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
@@ -17,10 +18,11 @@ const BeerTypeList = () => {
   const { showSnackbar } = useSnackbar();
 
   const [beerTypes, setBeerTypes] = useState([]);
+  const [beerColors, setBeerColors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState(null);
-  const [formData, setFormData] = useState({ name: "", description: "" });
+  const [formData, setFormData] = useState({ name: "", beer_color_id: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const BeerTypeList = () => {
       return;
     }
     fetchBeerTypes();
+    fetchBeerColors();
   }, [isAdmin, navigate]);
 
   const fetchBeerTypes = async () => {
@@ -45,15 +48,26 @@ const BeerTypeList = () => {
     }
   };
 
+  const fetchBeerColors = async () => {
+    try {
+      const response = await BeerColorService.getAllBeerColors();
+      if (response.entities) {
+        setBeerColors(response.entities);
+      }
+    } catch (error) {
+      showSnackbar("Greška pri učitavanju boja piva", "error");
+    }
+  };
+
   const handleCreate = () => {
     setEditingType(null);
-    setFormData({ name: "", description: "" });
+    setFormData({ name: "", beer_color_id: "" });
     setIsModalOpen(true);
   };
 
   const handleEdit = (type) => {
     setEditingType(type);
-    setFormData({ name: type.name, description: type.description || "" });
+    setFormData({ name: type.name, beer_color_id: type.beer_color_id || "" });
     setIsModalOpen(true);
   };
 
@@ -98,7 +112,14 @@ const BeerTypeList = () => {
 
   const columns = [
     { key: "name", label: "Naziv" },
-    { key: "description", label: "Opis" },
+    {
+      key: "beer_color_id",
+      label: "Boja",
+      render: (value) => {
+        const color = beerColors.find(c => c._id === value);
+        return color ? color.name : "-";
+      }
+    },
   ];
 
   const renderActions = (row) => (
@@ -145,7 +166,7 @@ const BeerTypeList = () => {
           confirmText="Spremi"
           cancelText="Odustani"
         >
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingType}>
             <FormInput
               label="Naziv"
               name="name"
@@ -155,14 +176,25 @@ const BeerTypeList = () => {
               }
               required
             />
-            <FormInput
-              label="Opis"
-              name="description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
+
+            <div className={styles.formGroup}>
+              <label htmlFor="beer_color_id">Boja *</label>
+              <select
+                id="beer_color_id"
+                value={formData.beer_color_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, beer_color_id: e.target.value })
+                }
+                required
+              >
+                <option value="">Odaberi boju</option>
+                {beerColors.map((color) => (
+                  <option key={color._id} value={color._id}>
+                    {color.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </Form>
         </FormModal>
         </div>

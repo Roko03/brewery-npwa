@@ -368,7 +368,7 @@ const BeerList = () => {
             cancelText="Odustani"
             size="large"
           >
-            <Form id="beer-form" onSubmit={handleSubmit}>
+            <Form id="beer-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingBeer}>
               <FormInput
                 label="Naziv"
                 name="name"

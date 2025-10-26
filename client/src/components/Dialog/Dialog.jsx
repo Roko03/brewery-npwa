@@ -38,7 +38,7 @@ const Dialog = ({
       role="dialog"
       aria-modal="true"
     >
-      <div className={styles.dialog__container} ref={dialogRef}>
+      <div className={styles.container} ref={dialogRef}>
         {children}
       </div>
     </div>
