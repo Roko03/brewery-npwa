@@ -7,6 +7,7 @@ const Button = ({
   onClick,
   variant = "primary",
   fullWidth = false,
+  size = "medium",
   icon,
   ...rest
 }) => {
@@ -16,6 +17,7 @@ const Button = ({
       className={clsx(
         styles.button,
         styles[variant],
+        styles[size],
         { [styles.fullWidth]: fullWidth },
         className
       )}

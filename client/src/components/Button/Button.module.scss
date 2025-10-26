@@ -6,8 +6,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: rem-calc(14) rem-calc(24);
-  font-size: rem-calc(18);
+
   font-weight: 600;
   border-radius: rem-calc(8);
   transition: all $animation-duration-normal ease-in-out;
@@ -45,6 +44,21 @@
   &.secondary:hover {
     border: rem-calc(2) solid $black;
     color: $black;
+  }
+
+  &.large {
+    padding: rem-calc(14) rem-calc(24);
+    font-size: rem-calc(18);
+  }
+
+  &.medium {
+    padding: rem-calc(12);
+    font-size: rem-calc(14);
+  }
+
+  &.small {
+    padding: rem-calc(8);
+    font-size: rem-calc(12);
   }
 
   &.iconOnly {
