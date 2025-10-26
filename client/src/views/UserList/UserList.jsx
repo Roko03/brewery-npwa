@@ -109,48 +109,34 @@ const UserList = () => {
     }
   };
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
 
     try {
       if (editingUser) {
         // Update user
         const updateData = {
-          username: data.username,
-          email: data.email,
-          bio: data.bio,
-          role: data.role,
+          username: formData.username,
+          email: formData.email,
+          bio: formData.bio,
+          role: formData.role,
         };
 
         // Only include password if it's been changed
-        if (data.password && data.password.trim() !== "") {
-          updateData.password = data.password;
+        if (formData.password && formData.password.trim() !== "") {
+          updateData.password = formData.password;
         }
 
-        const response = await UserService.updateUser(
-          editingUser._id,
-          updateData
-        );
-
-        if (response.user) {
-          showSnackbar("Korisnik uspješno ažuriran", "success");
-          setIsModalOpen(false);
-          fetchUsers();
-        } else {
-          showSnackbar(response.message || "Greška pri ažuriranju korisnika", "error");
-        }
+        await UserService.updateUser(editingUser._id, updateData);
+        showSnackbar("Korisnik uspješno ažuriran", "success");
       } else {
         // Create new user
-        const response = await UserService.createUser(data);
-
-        if (response.user) {
-          showSnackbar("Korisnik uspješno kreiran", "success");
-          setIsModalOpen(false);
-          fetchUsers();
-        } else {
-          showSnackbar(response.message || "Greška pri kreiranju korisnika", "error");
-        }
+        await UserService.createUser(formData);
+        showSnackbar("Korisnik uspješno kreiran", "success");
       }
+      setIsModalOpen(false);
+      fetchUsers();
     } catch (error) {
       showSnackbar("Greška pri spremanju korisnika", "error");
     } finally {
@@ -164,6 +150,10 @@ const UserList = () => {
   };
 
   const totalPages = Math.ceil(totalCount / pageSize);
+
+  if (loading && currentPage === 0) {
+    return <div className={styles.loading}>Učitavanje...</div>;
+  }
 
   const columns = [
     { key: "username", label: "Korisničko ime" },
@@ -181,127 +171,112 @@ const UserList = () => {
     },
   ];
 
+  const renderActions = (row) => (
+    <div className={styles.actions}>
+      <Button variant="primary" onClick={() => handleEdit(row)}>
+        Uredi
+      </Button>
+      <Button variant="secondary" onClick={() => handleDelete(row)}>
+        Izbriši
+      </Button>
+    </div>
+  );
+
   return (
     <div className={styles.userList}>
       <AdminHeader />
 
       <main className={styles.main}>
         <div className={styles.container}>
-          <div className={styles.header}>
-            <h1>Upravljanje Korisnicima</h1>
+          <header className={styles.header}>
+            <h1>Korisnici</h1>
             <Button variant="primary" onClick={handleCreate}>
               + Novi Korisnik
             </Button>
-          </div>
+          </header>
 
-          {loading ? (
-            <div className={styles.loading}>Učitavanje korisnika...</div>
-          ) : (
-            <>
-              <Table
-                columns={columns}
-                data={users}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
+          <Table
+            columns={columns}
+            data={users}
+            actions={renderActions}
+            emptyMessage="Nema korisnika"
+          />
 
-              {totalPages > 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  pageSize={pageSize}
-                  totalCount={totalCount}
-                  onPageChange={handlePageChange}
-                />
-              )}
-            </>
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              pageSize={pageSize}
+              totalCount={totalCount}
+              onPageChange={handlePageChange}
+            />
           )}
 
           <FormModal
+            title={editingUser ? "Uredi Korisnika" : "Dodaj Korisnika"}
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            title={editingUser ? "Uredi Korisnika" : "Novi Korisnik"}
+            onConfirm={handleSubmit}
+            isConfirming={isSubmitting}
+            confirmText="Spremi"
+            cancelText="Odustani"
           >
-            <Form onSubmit={handleSubmit} defaultValues={formData}>
-              {({ register, formState: { errors } }) => (
-                <>
-                  <FormInput
-                    label="Korisničko ime"
-                    {...register("username", {
-                      required: "Korisničko ime je obavezno",
-                    })}
-                    error={errors.username?.message}
-                  />
+            <Form id="user-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingUser}>
+              <FormInput
+                label="Korisničko ime"
+                name="username"
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                required
+              />
 
-                  <FormInput
-                    label="Email"
-                    type="email"
-                    {...register("email", {
-                      required: "Email je obavezan",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Neispravna email adresa",
-                      },
-                    })}
-                    error={errors.email?.message}
-                  />
+              <FormInput
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                required
+              />
 
-                  <FormInput
-                    label={editingUser ? "Lozinka (ostavi prazno ako ne mijenjate)" : "Lozinka"}
-                    type="password"
-                    {...register("password", {
-                      required: editingUser ? false : "Lozinka je obavezna",
-                      minLength: {
-                        value: 6,
-                        message: "Lozinka mora imati najmanje 6 znakova",
-                      },
-                    })}
-                    error={errors.password?.message}
-                  />
+              <FormInput
+                label={editingUser ? "Lozinka (ostavi prazno ako ne mijenjate)" : "Lozinka"}
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                required={!editingUser}
+              />
 
-                  <FormInput
-                    label="Bio (opciono)"
-                    {...register("bio")}
-                    error={errors.bio?.message}
-                  />
+              <FormInput
+                label="Bio"
+                name="bio"
+                value={formData.bio}
+                onChange={(e) =>
+                  setFormData({ ...formData, bio: e.target.value })
+                }
+              />
 
-                  <div className={styles.formGroup}>
-                    <label htmlFor="role">Uloga</label>
-                    <select
-                      id="role"
-                      {...register("role", { required: "Uloga je obavezna" })}
-                      className={styles.select}
-                    >
-                      <option value="USER">USER</option>
-                      <option value="ADMIN">ADMIN</option>
-                    </select>
-                    {errors.role && (
-                      <span className={styles.error}>{errors.role.message}</span>
-                    )}
-                  </div>
-
-                  <div className={styles.formActions}>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      onClick={() => setIsModalOpen(false)}
-                    >
-                      Odustani
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting
-                        ? "Spremam..."
-                        : editingUser
-                        ? "Ažuriraj"
-                        : "Kreiraj"}
-                    </Button>
-                  </div>
-                </>
-              )}
+              <div className={styles.formGroup}>
+                <label htmlFor="role">Uloga *</label>
+                <select
+                  id="role"
+                  value={formData.role}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                  required
+                >
+                  <option value="USER">USER</option>
+                  <option value="ADMIN">ADMIN</option>
+                </select>
+              </div>
             </Form>
           </FormModal>
         </div>

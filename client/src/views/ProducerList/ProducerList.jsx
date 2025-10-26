@@ -25,7 +25,9 @@ const ProducerList = () => {
   const [formData, setFormData] = useState({
     name: "",
     country: "",
-    website: "",
+    description: "",
+    founded_year: "",
+    logo_url: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -62,7 +64,7 @@ const ProducerList = () => {
 
   const handleCreate = () => {
     setEditingProducer(null);
-    setFormData({ name: "", country: "", website: "" });
+    setFormData({ name: "", country: "", description: "", founded_year: "", logo_url: "" });
     setIsModalOpen(true);
   };
 
@@ -71,7 +73,9 @@ const ProducerList = () => {
     setFormData({
       name: producer.name,
       country: producer.country,
-      website: producer.website || "",
+      description: producer.description || "",
+      founded_year: producer.founded_year || "",
+      logo_url: producer.logo_url || "",
     });
     setIsModalOpen(true);
   };
@@ -99,11 +103,18 @@ const ProducerList = () => {
     setIsSubmitting(true);
 
     try {
+      const submitData = { ...formData };
+
+      // Convert founded_year to number if provided
+      if (submitData.founded_year) {
+        submitData.founded_year = Number(submitData.founded_year);
+      }
+
       if (editingProducer) {
-        await ProducerService.updateProducer(editingProducer._id, formData);
+        await ProducerService.updateProducer(editingProducer._id, submitData);
         showSnackbar("Proizvođač uspješno ažuriran", "success");
       } else {
-        await ProducerService.createProducer(formData);
+        await ProducerService.createProducer(submitData);
         showSnackbar("Proizvođač uspješno kreiran", "success");
       }
       setIsModalOpen(false);
@@ -124,7 +135,7 @@ const ProducerList = () => {
   const columns = [
     { key: "name", label: "Naziv" },
     { key: "country", label: "Država" },
-    { key: "website", label: "Website" },
+    { key: "founded_year", label: "Godina osnivanja" },
   ];
 
   const renderActions = (row) => (
@@ -203,12 +214,29 @@ const ProducerList = () => {
               required
             />
             <FormInput
-              label="Website"
-              name="website"
-              type="url"
-              value={formData.website}
+              label="Opis"
+              name="description"
+              value={formData.description}
               onChange={(e) =>
-                setFormData({ ...formData, website: e.target.value })
+                setFormData({ ...formData, description: e.target.value })
+              }
+            />
+            <FormInput
+              label="Godina osnivanja"
+              name="founded_year"
+              type="number"
+              value={formData.founded_year}
+              onChange={(e) =>
+                setFormData({ ...formData, founded_year: e.target.value })
+              }
+            />
+            <FormInput
+              label="URL Loga"
+              name="logo_url"
+              type="url"
+              value={formData.logo_url}
+              onChange={(e) =>
+                setFormData({ ...formData, logo_url: e.target.value })
               }
             />
           </Form>

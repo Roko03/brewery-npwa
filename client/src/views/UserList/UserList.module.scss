@@ -1,80 +1,96 @@
-@use "@/styles/settings/variables" as *;
 @use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
 
 .userList {
   min-height: 100vh;
-  background-color: white;
-}
-
-.main {
-  padding: rem-calc(40) rem-calc(20);
-  max-width: rem-calc(1200);
-  margin: 0 auto;
-}
-
-.container {
-  background: white;
-  border-radius: rem-calc(12);
+  background-color: $grey;
   padding: rem-calc(32);
-  box-shadow: 0 rem-calc(2) rem-calc(8) rgba(0, 0, 0, 0.1);
-}
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: rem-calc(32);
+  .container {
+    margin: 0 auto;
+  }
 
-  h1 {
-    font-size: rem-calc(28);
-    color: $primary;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: rem-calc(32);
+    flex-wrap: wrap;
+    gap: rem-calc(16);
+
+    h1 {
+      font-size: rem-calc(32);
+      color: $black;
+      margin: 0 0 rem-calc(8) 0;
+    }
+
+    p {
+      font-size: rem-calc(16);
+      color: $primary;
+      margin: 0;
+    }
+
+    .headerActions {
+      display: flex;
+      gap: rem-calc(12);
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: rem-calc(8);
+    justify-content: center;
+  }
+
+  .loading {
+    text-align: center;
+    padding: rem-calc(48);
+    font-size: rem-calc(20);
+    color: $black;
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: rem-calc(8);
+
+    label {
+      font-weight: 600;
+      font-size: rem-calc(14);
+      color: $black;
+    }
+
+    select {
+      padding: rem-calc(12);
+      border: 1px solid $grey;
+      border-radius: rem-calc(4);
+      font-size: rem-calc(16);
+      background: $white;
+      cursor: pointer;
+      transition: border-color $animation-duration-fast;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
   }
 }
 
-.loading {
-  text-align: center;
-  padding: rem-calc(60);
-  font-size: rem-calc(18);
-  color: black;
-}
+@media (max-width: 768px) {
+  .userList {
+    padding: rem-calc(16);
 
-.formGroup {
-  margin-bottom: rem-calc(20);
+    .header {
+      flex-direction: column;
 
-  label {
-    display: block;
-    margin-bottom: rem-calc(8);
-    font-weight: 600;
-    color: black;
+      .headerActions {
+        width: 100%;
+
+        button {
+          flex: 1;
+        }
+      }
+    }
   }
-}
-
-.select {
-  width: 100%;
-  padding: rem-calc(10) rem-calc(12);
-  border: rem-calc(1) solid black;
-  border-radius: rem-calc(6);
-  font-size: rem-calc(14);
-  color: black;
-  background-color: white;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: $primary;
-  }
-}
-
-.error {
-  color: #dc2626;
-  font-size: rem-calc(12);
-  margin-top: rem-calc(4);
-  display: block;
-}
-
-.formActions {
-  display: flex;
-  gap: rem-calc(12);
-  justify-content: flex-end;
-  margin-top: rem-calc(24);
 }
