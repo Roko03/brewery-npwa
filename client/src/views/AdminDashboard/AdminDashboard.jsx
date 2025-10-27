@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { useAuth } from "@/hooks/context/AuthContext";
+import Layout from "@/components/Layout";
 import styles from "./AdminDashboard.module.scss";
 
 const AdminDashboard = () => {
@@ -44,28 +45,30 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className={styles.adminDashboard}>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <h1>Admin Dashboard</h1>
-          <p>Dobrodošli, {user?.name || "Admin"}</p>
-        </header>
+    <Layout>
+      <div className={styles.adminDashboard}>
+        <div className={styles.container}>
+          <header className={styles.header}>
+            <h1>Admin Dashboard</h1>
+            <p>Dobrodošli, {user?.name || "Admin"}</p>
+          </header>
 
-        <div className={styles.grid}>
-          {dashboardCards.map((card) => (
-            <Link
-              key={card.link}
-              to={card.link}
-              className={`${styles.card} ${styles[card.color]}`}
-            >
-              <div className={styles.icon}>{card.icon}</div>
-              <h2>{card.title}</h2>
-              <p>{card.description}</p>
-            </Link>
-          ))}
+          <div className={styles.grid}>
+            {dashboardCards.map((card) => (
+              <Link
+                key={card.link}
+                to={card.link}
+                className={`${styles.card} ${styles[card.color]}`}
+              >
+                <div className={styles.icon}>{card.icon}</div>
+                <h2>{card.title}</h2>
+                <p>{card.description}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

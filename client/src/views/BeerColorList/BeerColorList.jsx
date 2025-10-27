@@ -7,7 +7,7 @@ import Table from "@/components/Table";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
-import AdminHeader from "@/components/AdminHeader";
+import Layout from "@/components/Layout";
 import styles from "./BeerColorList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -96,9 +96,7 @@ const BeerColorList = () => {
     }
   };
 
-  const columns = [
-    { key: "name", label: "Naziv" },
-  ];
+  const columns = [{ key: "name", label: "Naziv" }];
 
   const renderActions = (row) => (
     <div className={styles.actions}>
@@ -116,49 +114,54 @@ const BeerColorList = () => {
   }
 
   return (
-    <div className={styles.beerColorList}>
-      <AdminHeader />
+    <Layout>
+      <div className={styles.beerColorList}>
+        <main className={styles.main}>
+          <div className={styles.container}>
+            <header className={styles.header}>
+              <h1>Boje Piva</h1>
+              <Button variant="primary" onClick={handleCreate}>
+                + Nova Boja
+              </Button>
+            </header>
 
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1>Boje Piva</h1>
-            <Button variant="primary" onClick={handleCreate}>
-              + Nova Boja
-            </Button>
-          </header>
-
-        <Table
-          columns={columns}
-          data={beerColors}
-          actions={renderActions}
-          emptyMessage="Nema boja piva"
-        />
-
-        <FormModal
-          title={editingColor ? "Uredi Boju Piva" : "Dodaj Boju Piva"}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={handleSubmit}
-          isConfirming={isSubmitting}
-          confirmText="Spremi"
-          cancelText="Odustani"
-        >
-          <Form id="beer-color-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingColor}>
-            <FormInput
-              label="Naziv"
-              name="name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              required
+            <Table
+              columns={columns}
+              data={beerColors}
+              actions={renderActions}
+              emptyMessage="Nema boja piva"
             />
-          </Form>
-        </FormModal>
-        </div>
-      </main>
-    </div>
+
+            <FormModal
+              title={editingColor ? "Uredi Boju Piva" : "Dodaj Boju Piva"}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleSubmit}
+              isConfirming={isSubmitting}
+              confirmText="Spremi"
+              cancelText="Odustani"
+            >
+              <Form
+                id="beer-color-form"
+                onSubmit={handleSubmit}
+                defaultValues={formData}
+                resetDefaultValues={!!editingColor}
+              >
+                <FormInput
+                  formLabel="Naziv"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                />
+              </Form>
+            </FormModal>
+          </div>
+        </main>
+      </div>
+    </Layout>
   );
 };
 

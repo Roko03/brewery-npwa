@@ -4,6 +4,7 @@ import OrderService from "@/services/order.service";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import Header from "@/components/Header";
 import Button from "@/components/Button";
+import Layout from "@/components/Layout";
 import styles from "./OrderHistory.module.scss";
 
 const OrderHistory = () => {
@@ -70,9 +71,7 @@ const OrderHistory = () => {
   }
 
   return (
-    <div className={styles.orderHistory}>
-      <Header />
-
+    <Layout>
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.header}>
@@ -111,7 +110,9 @@ const OrderHistory = () => {
                     </div>
                     <div className={styles.orderMeta}>
                       <span
-                        className={`${styles.status} ${getStatusClass(order.status)}`}
+                        className={`${styles.status} ${getStatusClass(
+                          order.status
+                        )}`}
                       >
                         {getStatusLabel(order.status)}
                       </span>
@@ -175,7 +176,7 @@ const OrderHistory = () => {
           )}
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 

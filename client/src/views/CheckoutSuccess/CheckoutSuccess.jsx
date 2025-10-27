@@ -77,9 +77,7 @@ const CheckoutSuccess = () => {
   }
 
   return (
-    <div className={styles.checkoutSuccess}>
-      <Header />
-
+    <Layout>
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.successCard}>
@@ -107,7 +105,7 @@ const CheckoutSuccess = () => {
           </div>
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 

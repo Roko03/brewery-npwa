@@ -9,7 +9,7 @@ import BeerColorService from "@/services/beerColor.service";
 import ProducerService from "@/services/producer.service";
 import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
-import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 import styles from "./Home.module.scss";
 
 const Home = () => {
@@ -134,9 +134,7 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.home}>
-      <Header />
-
+    <Layout>
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.hero}>
@@ -211,7 +209,9 @@ const Home = () => {
                       <h3>{beer.name}</h3>
                       <p className={styles.producer}>{beer.producer_name}</p>
                       <div className={styles.beerDetails}>
-                        <span className={styles.type}>{beer.beer_type_name}</span>
+                        <span className={styles.type}>
+                          {beer.beer_type_name}
+                        </span>
                         <span className={styles.alcohol}>
                           {beer.alcohol_percentage}%
                         </span>
@@ -260,7 +260,7 @@ const Home = () => {
           )}
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 

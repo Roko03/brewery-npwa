@@ -6,7 +6,6 @@ import Register from "@/views/Register";
 import Home from "@/views/Home";
 import AdminDashboard from "@/views/AdminDashboard";
 import Profile from "@/views/Profile";
-import BeerDetails from "@/views/BeerDetails";
 import BeerList from "@/views/BeerList";
 import BeerTypeList from "@/views/BeerTypeList";
 import BeerColorList from "@/views/BeerColorList";
@@ -39,14 +38,6 @@ const AppRouter = () => (
           element={
             <ProtectedRoute>
               <BeerList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/beer/:id"
-          element={
-            <ProtectedRoute>
-              <BeerDetails />
             </ProtectedRoute>
           }
         />
@@ -127,6 +118,14 @@ const AppRouter = () => (
           element={
             <ProtectedRoute requireAdmin={true}>
               <UserList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

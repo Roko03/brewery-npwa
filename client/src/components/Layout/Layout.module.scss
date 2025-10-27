@@ -1,0 +1,13 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $grey;
+}
+
+.content {
+  flex: 1;
+}

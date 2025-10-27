@@ -8,7 +8,7 @@ import Table from "@/components/Table";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
-import AdminHeader from "@/components/AdminHeader";
+import Layout from "@/components/Layout";
 import styles from "./BeerTypeList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -116,9 +116,9 @@ const BeerTypeList = () => {
       key: "beer_color_id",
       label: "Boja",
       render: (value) => {
-        const color = beerColors.find(c => c._id === value);
+        const color = beerColors.find((c) => c._id === value);
         return color ? color.name : "-";
-      }
+      },
     },
   ];
 
@@ -138,68 +138,75 @@ const BeerTypeList = () => {
   }
 
   return (
-    <div className={styles.beerTypeList}>
-      <AdminHeader />
+    <Layout>
+      <div className={styles.beerTypeList}>
+        <main className={styles.main}>
+          <div className={styles.container}>
+            <header className={styles.header}>
+              <h1>Tipovi Piva</h1>
+              <Button variant="primary" onClick={handleCreate}>
+                + Novi Tip
+              </Button>
+            </header>
 
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1>Tipovi Piva</h1>
-            <Button variant="primary" onClick={handleCreate}>
-              + Novi Tip
-            </Button>
-          </header>
-
-        <Table
-          columns={columns}
-          data={beerTypes}
-          actions={renderActions}
-          emptyMessage="Nema tipova piva"
-        />
-
-        <FormModal
-          title={editingType ? "Uredi Tip Piva" : "Dodaj Tip Piva"}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={handleSubmit}
-          isConfirming={isSubmitting}
-          confirmText="Spremi"
-          cancelText="Odustani"
-        >
-          <Form onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingType}>
-            <FormInput
-              label="Naziv"
-              name="name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              required
+            <Table
+              columns={columns}
+              data={beerTypes}
+              actions={renderActions}
+              emptyMessage="Nema tipova piva"
             />
 
-            <div className={styles.formGroup}>
-              <label htmlFor="beer_color_id">Boja *</label>
-              <select
-                id="beer_color_id"
-                value={formData.beer_color_id}
-                onChange={(e) =>
-                  setFormData({ ...formData, beer_color_id: e.target.value })
-                }
-                required
+            <FormModal
+              title={editingType ? "Uredi Tip Piva" : "Dodaj Tip Piva"}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleSubmit}
+              isConfirming={isSubmitting}
+              confirmText="Spremi"
+              cancelText="Odustani"
+            >
+              <Form
+                onSubmit={handleSubmit}
+                defaultValues={formData}
+                resetDefaultValues={!!editingType}
               >
-                <option value="">Odaberi boju</option>
-                {beerColors.map((color) => (
-                  <option key={color._id} value={color._id}>
-                    {color.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </Form>
-        </FormModal>
-        </div>
-      </main>
-    </div>
+                <FormInput
+                  formLabel="Naziv"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                />
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="beer_color_id">Boja *</label>
+                  <select
+                    id="beer_color_id"
+                    value={formData.beer_color_id}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        beer_color_id: e.target.value,
+                      })
+                    }
+                    required
+                  >
+                    <option value="">Odaberi boju</option>
+                    {beerColors.map((color) => (
+                      <option key={color._id} value={color._id}>
+                        {color.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Form>
+            </FormModal>
+          </div>
+        </main>
+      </div>
+    </Layout>
   );
 };
 

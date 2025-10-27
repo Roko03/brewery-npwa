@@ -20,6 +20,7 @@ const AdminHeader = () => {
     { path: "/admin/beer-colors", label: "Boje", icon: "🎨" },
     { path: "/admin/producers", label: "Proizvođači", icon: "🏭" },
     { path: "/admin/users", label: "Korisnici", icon: "👥" },
+    { path: "/admin/profile", label: "Profil", icon: "👥" },
   ];
 
   const isActive = (path) => {
@@ -44,7 +45,9 @@ const AdminHeader = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`${styles.navLink} ${isActive(item.path) ? styles.active : ""}`}
+                className={`${styles.navLink} ${
+                  isActive(item.path) ? styles.active : ""
+                }`}
               >
                 <span className={styles.icon}>{item.icon}</span>
                 <span className={styles.label}>{item.label}</span>

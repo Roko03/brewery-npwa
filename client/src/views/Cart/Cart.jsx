@@ -5,6 +5,7 @@ import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import CartService from "@/services/cart.service";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 import styles from "./Cart.module.scss";
 
 const Cart = () => {
@@ -63,7 +64,10 @@ const Cart = () => {
       if (result.success && result.url) {
         // Save order data to sessionStorage for later use
         if (result.orderData) {
-          sessionStorage.setItem("pendingOrder", JSON.stringify(result.orderData));
+          sessionStorage.setItem(
+            "pendingOrder",
+            JSON.stringify(result.orderData)
+          );
         }
         // Redirect to Stripe checkout page
         window.location.href = result.url;
@@ -87,9 +91,7 @@ const Cart = () => {
   }
 
   return (
-    <div className={styles.cart}>
-      <Header />
-
+    <Layout>
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.header}>
@@ -210,7 +212,7 @@ const Cart = () => {
           )}
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 

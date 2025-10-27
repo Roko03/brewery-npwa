@@ -8,7 +8,7 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
-import AdminHeader from "@/components/AdminHeader";
+import Layout from "@/components/Layout";
 import styles from "./ProducerList.module.scss";
 import Form from "@/components/Forms/Form";
 
@@ -64,7 +64,13 @@ const ProducerList = () => {
 
   const handleCreate = () => {
     setEditingProducer(null);
-    setFormData({ name: "", country: "", description: "", founded_year: "", logo_url: "" });
+    setFormData({
+      name: "",
+      country: "",
+      description: "",
+      founded_year: "",
+      logo_url: "",
+    });
     setIsModalOpen(true);
   };
 
@@ -156,94 +162,101 @@ const ProducerList = () => {
   }
 
   return (
-    <div className={styles.producerList}>
-      <AdminHeader />
+    <Layout>
+      <div className={styles.producerList}>
+        <main className={styles.main}>
+          <div className={styles.container}>
+            <div className={styles.header}>
+              <h1>Proizvođači</h1>
+              <Button variant="primary" onClick={handleCreate}>
+                + Novi Proizvođač
+              </Button>
+            </div>
 
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1>Proizvođači</h1>
-            <Button variant="primary" onClick={handleCreate}>
-              + Novi Proizvođač
-            </Button>
-          </header>
+            <Table
+              columns={columns}
+              data={producers}
+              actions={renderActions}
+              emptyMessage="Nema proizvođača"
+            />
 
-        <Table
-          columns={columns}
-          data={producers}
-          actions={renderActions}
-          emptyMessage="Nema proizvođača"
-        />
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                pageSize={pageSize}
+                totalCount={totalCount}
+                onPageChange={handlePageChange}
+              />
+            )}
 
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            pageSize={pageSize}
-            totalCount={totalCount}
-            onPageChange={handlePageChange}
-          />
-        )}
-
-        <FormModal
-          title={editingProducer ? "Uredi Proizvođača" : "Dodaj Proizvođača"}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={handleSubmit}
-          isConfirming={isSubmitting}
-          confirmText="Spremi"
-          cancelText="Odustani"
-        >
-          <Form id="producer-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingProducer}>
-            <FormInput
-              label="Naziv"
-              name="name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+            <FormModal
+              title={
+                editingProducer ? "Uredi Proizvođača" : "Dodaj Proizvođača"
               }
-              required
-            />
-            <FormInput
-              label="Država"
-              name="country"
-              value={formData.country}
-              onChange={(e) =>
-                setFormData({ ...formData, country: e.target.value })
-              }
-              required
-            />
-            <FormInput
-              label="Opis"
-              name="description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
-            <FormInput
-              label="Godina osnivanja"
-              name="founded_year"
-              type="number"
-              value={formData.founded_year}
-              onChange={(e) =>
-                setFormData({ ...formData, founded_year: e.target.value })
-              }
-            />
-            <FormInput
-              label="URL Loga"
-              name="logo_url"
-              type="url"
-              value={formData.logo_url}
-              onChange={(e) =>
-                setFormData({ ...formData, logo_url: e.target.value })
-              }
-            />
-          </Form>
-        </FormModal>
-        </div>
-      </main>
-    </div>
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleSubmit}
+              isConfirming={isSubmitting}
+              confirmText="Spremi"
+              cancelText="Odustani"
+            >
+              <Form
+                id="producer-form"
+                onSubmit={handleSubmit}
+                defaultValues={formData}
+                resetDefaultValues={!!editingProducer}
+              >
+                <FormInput
+                  formLabel="Naziv"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                />
+                <FormInput
+                  formLabel="Država"
+                  name="country"
+                  value={formData.country}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
+                  required
+                />
+                <FormInput
+                  formLabel="Opis"
+                  name="description"
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
+                />
+                <FormInput
+                  formLabel="Godina osnivanja"
+                  name="founded_year"
+                  type="number"
+                  value={formData.founded_year}
+                  onChange={(e) =>
+                    setFormData({ ...formData, founded_year: e.target.value })
+                  }
+                />
+                <FormInput
+                  formLabel="URL Loga"
+                  name="logo_url"
+                  type="url"
+                  value={formData.logo_url}
+                  onChange={(e) =>
+                    setFormData({ ...formData, logo_url: e.target.value })
+                  }
+                />
+              </Form>
+            </FormModal>
+          </div>
+        </main>
+      </div>
+    </Layout>
   );
 };
 

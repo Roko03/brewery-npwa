@@ -8,8 +8,8 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import Layout from "@/components/Layout";
 import Form from "@/components/Forms/Form";
-import AdminHeader from "@/components/AdminHeader";
 import styles from "./UserList.module.scss";
 
 const UserList = () => {
@@ -183,105 +183,114 @@ const UserList = () => {
   );
 
   return (
-    <div className={styles.userList}>
-      <AdminHeader />
+    <Layout>
+      <div className={styles.userList}>
+        <main className={styles.main}>
+          <div className={styles.container}>
+            <header className={styles.header}>
+              <h1>Korisnici</h1>
+              <Button variant="primary" onClick={handleCreate}>
+                + Novi Korisnik
+              </Button>
+            </header>
 
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <h1>Korisnici</h1>
-            <Button variant="primary" onClick={handleCreate}>
-              + Novi Korisnik
-            </Button>
-          </header>
-
-          <Table
-            columns={columns}
-            data={users}
-            actions={renderActions}
-            emptyMessage="Nema korisnika"
-          />
-
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              pageSize={pageSize}
-              totalCount={totalCount}
-              onPageChange={handlePageChange}
+            <Table
+              columns={columns}
+              data={users}
+              actions={renderActions}
+              emptyMessage="Nema korisnika"
             />
-          )}
 
-          <FormModal
-            title={editingUser ? "Uredi Korisnika" : "Dodaj Korisnika"}
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onConfirm={handleSubmit}
-            isConfirming={isSubmitting}
-            confirmText="Spremi"
-            cancelText="Odustani"
-          >
-            <Form id="user-form" onSubmit={handleSubmit} defaultValues={formData} resetDefaultValues={!!editingUser}>
-              <FormInput
-                label="Korisničko ime"
-                name="username"
-                value={formData.username}
-                onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
-                required
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                pageSize={pageSize}
+                totalCount={totalCount}
+                onPageChange={handlePageChange}
               />
+            )}
 
-              <FormInput
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                required
-              />
-
-              <FormInput
-                label={editingUser ? "Lozinka (ostavi prazno ako ne mijenjate)" : "Lozinka"}
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                required={!editingUser}
-              />
-
-              <FormInput
-                label="Bio"
-                name="bio"
-                value={formData.bio}
-                onChange={(e) =>
-                  setFormData({ ...formData, bio: e.target.value })
-                }
-              />
-
-              <div className={styles.formGroup}>
-                <label htmlFor="role">Uloga *</label>
-                <select
-                  id="role"
-                  value={formData.role}
+            <FormModal
+              title={editingUser ? "Uredi Korisnika" : "Dodaj Korisnika"}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleSubmit}
+              isConfirming={isSubmitting}
+              confirmText="Spremi"
+              cancelText="Odustani"
+            >
+              <Form
+                id="user-form"
+                onSubmit={handleSubmit}
+                defaultValues={formData}
+                resetDefaultValues={!!editingUser}
+              >
+                <FormInput
+                  formLabel="Korisničko ime"
+                  name="username"
+                  value={formData.username}
                   onChange={(e) =>
-                    setFormData({ ...formData, role: e.target.value })
+                    setFormData({ ...formData, username: e.target.value })
                   }
                   required
-                >
-                  <option value="USER">USER</option>
-                  <option value="ADMIN">ADMIN</option>
-                </select>
-              </div>
-            </Form>
-          </FormModal>
-        </div>
-      </main>
-    </div>
+                />
+
+                <FormInput
+                  formLabel="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                />
+
+                <FormInput
+                  formLabel={
+                    editingUser
+                      ? "Lozinka (ostavi prazno ako ne mijenjate)"
+                      : "Lozinka"
+                  }
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  required={!editingUser}
+                />
+
+                <FormInput
+                  formLabel="Bio"
+                  name="bio"
+                  value={formData.bio}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bio: e.target.value })
+                  }
+                />
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="role">Uloga *</label>
+                  <select
+                    id="role"
+                    value={formData.role}
+                    onChange={(e) =>
+                      setFormData({ ...formData, role: e.target.value })
+                    }
+                    required
+                  >
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                  </select>
+                </div>
+              </Form>
+            </FormModal>
+          </div>
+        </main>
+      </div>
+    </Layout>
   );
 };
 
