@@ -8,12 +8,14 @@ import BeerColorService from "@/services/beerColor.service";
 import ProducerService from "@/services/producer.service";
 import { WishlistStorage } from "@/services/favorites.service";
 import Table from "@/components/Table";
+import Layout from "@/components/Layout";
 import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import BeerCard from "@/components/BeerCard";
+import BeerDetailsModal from "@/components/BeerDetailsModal";
 import styles from "./BeerList.module.scss";
-import Layout from "@/components/Layout";
 import Form from "@/components/Forms/Form";
 
 const BeerList = () => {
@@ -30,6 +32,8 @@ const BeerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBeer, setEditingBeer] = useState(null);
   const [wishlist, setWishlist] = useState([]);
+  const [selectedBeer, setSelectedBeer] = useState(null);
+  const [isBeerDetailsOpen, setIsBeerDetailsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -227,6 +231,16 @@ const BeerList = () => {
     loadWishlist();
   };
 
+  const handleCardClick = (beer) => {
+    setSelectedBeer(beer);
+    setIsBeerDetailsOpen(true);
+  };
+
+  const handleCloseBeerDetails = () => {
+    setIsBeerDetailsOpen(false);
+    setSelectedBeer(null);
+  };
+
   const columns = [
     { key: "name", label: "Naziv" },
     { key: "producer_name", label: "Proizvođač" },
@@ -274,248 +288,287 @@ const BeerList = () => {
   return (
     <Layout>
       <div className={styles.beerList}>
-        <main className={styles.main}>
-          <div className={styles.container}>
-            <header className={styles.header}>
-              <h1>Piva</h1>
-              {!isAdmin && (
-                <Button
-                  variant="primary"
-                  onClick={() => navigate("/favorites")}
-                >
-                  Lista želja ({wishlist.length})
-                </Button>
-              )}
-              {isAdmin && (
-                <Button variant="primary" onClick={handleCreate}>
-                  Dodaj Pivo
-                </Button>
-              )}
-            </header>
-          </div>
+        <div className={styles.container}>
+          <header className={styles.header}>
+            <h1>Piva</h1>
+            {!isAdmin && (
+              <Button variant="primary" onClick={() => navigate("/favorites")}>
+                Lista želja ({wishlist.length})
+              </Button>
+            )}
+            {isAdmin && (
+              <Button variant="primary" onClick={handleCreate}>
+                Dodaj Pivo
+              </Button>
+            )}
+          </header>
+        </div>
 
-          <div className={styles.filters}>
-            <div className={styles.filterGroup}>
-              <label>Proizvođač</label>
-              <select
-                value={filters.producer}
-                onChange={(e) => handleFilterChange("producer", e.target.value)}
-              >
-                <option value="">Svi proizvođači</option>
-                {producers.map((p) => (
-                  <option key={p._id} value={p._id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className={styles.filterGroup}>
-              <label>Tip</label>
-              <select
-                value={filters.type}
-                onChange={(e) => handleFilterChange("type", e.target.value)}
-              >
-                <option value="">Svi tipovi</option>
-                {beerTypes.map((t) => (
-                  <option key={t._id} value={t._id}>
-                    {t.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className={styles.filterGroup}>
-              <label>Boja</label>
-              <select
-                value={filters.color}
-                onChange={(e) => handleFilterChange("color", e.target.value)}
-              >
-                <option value="">Sve boje</option>
-                {beerColors.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <Table
-            columns={columns}
-            data={beers}
-            actions={renderActions}
-            emptyMessage="Nema piva"
-          />
-
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              pageSize={pageSize}
-              totalCount={totalCount}
-              onPageChange={handlePageChange}
-            />
-          )}
-
-          {isAdmin && (
-            <FormModal
-              title={editingBeer ? "Uredi Pivo" : "Dodaj Pivo"}
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              onConfirm={handleSubmit}
-              isConfirming={isSubmitting}
-              confirmText="Spremi"
-              cancelText="Odustani"
-              size="large"
+        <div className={styles.filters}>
+          <div className={styles.filterGroup}>
+            <label>Proizvođač</label>
+            <select
+              value={filters.producer}
+              onChange={(e) => handleFilterChange("producer", e.target.value)}
             >
-              <Form
-                id="beer-form"
-                onSubmit={handleSubmit}
-                defaultValues={formData}
-                resetDefaultValues={!!editingBeer}
-              >
-                <FormInput
-                  formLabel="Naziv"
-                  name="name"
-                  value={formData.name}
+              <option value="">Svi proizvođači</option>
+              {producers.map((p) => (
+                <option key={p._id} value={p._id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label>Tip</label>
+            <select
+              value={filters.type}
+              onChange={(e) => handleFilterChange("type", e.target.value)}
+            >
+              <option value="">Svi tipovi</option>
+              {beerTypes.map((t) => (
+                <option key={t._id} value={t._id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label>Boja</label>
+            <select
+              value={filters.color}
+              onChange={(e) => handleFilterChange("color", e.target.value)}
+            >
+              <option value="">Sve boje</option>
+              {beerColors.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {isAdmin ? (
+          <>
+            <Table
+              columns={columns}
+              data={beers}
+              actions={renderActions}
+              emptyMessage="Nema piva"
+            />
+
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                pageSize={pageSize}
+                totalCount={totalCount}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </>
+        ) : (
+          <>
+            {beers.length === 0 ? (
+              <div className={styles.emptyState}>
+                <p>Nema pronađenih piva</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.beerGrid}>
+                  {beers.map((beer) => (
+                    <BeerCard
+                      key={beer._id}
+                      beer={beer}
+                      onCardClick={handleCardClick}
+                      onWishlistChange={loadWishlist}
+                    />
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    pageSize={pageSize}
+                    totalCount={totalCount}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {!isAdmin && (
+          <BeerDetailsModal
+            beer={selectedBeer}
+            isOpen={isBeerDetailsOpen}
+            onClose={handleCloseBeerDetails}
+            onWishlistChange={loadWishlist}
+          />
+        )}
+
+        {isAdmin && (
+          <FormModal
+            title={editingBeer ? "Uredi Pivo" : "Dodaj Pivo"}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onConfirm={handleSubmit}
+            isConfirming={isSubmitting}
+            confirmText="Spremi"
+            cancelText="Odustani"
+            size="large"
+          >
+            <Form
+              id="beer-form"
+              onSubmit={handleSubmit}
+              defaultValues={formData}
+              resetDefaultValues={!!editingBeer}
+            >
+              <FormInput
+                formLabel="Naziv"
+                name="name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                required
+              />
+
+              <div className={styles.formGroup}>
+                <label htmlFor="producer_id">Proizvođač *</label>
+                <select
+                  id="producer_id"
+                  value={formData.producer_id}
                   onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
+                    setFormData({ ...formData, producer_id: e.target.value })
                   }
                   required
-                />
+                >
+                  <option value="">Odaberi proizvođača</option>
+                  {producers.map((p) => (
+                    <option key={p._id} value={p._id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="producer_id">Proizvođač *</label>
-                  <select
-                    id="producer_id"
-                    value={formData.producer_id}
-                    onChange={(e) =>
-                      setFormData({ ...formData, producer_id: e.target.value })
-                    }
-                    required
-                  >
-                    <option value="">Odaberi proizvođača</option>
-                    {producers.map((p) => (
-                      <option key={p._id} value={p._id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="beer_type_id">Tip *</label>
+                <select
+                  id="beer_type_id"
+                  value={formData.beer_type_id}
+                  onChange={(e) =>
+                    setFormData({ ...formData, beer_type_id: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">Odaberi tip</option>
+                  {beerTypes.map((t) => (
+                    <option key={t._id} value={t._id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="beer_type_id">Tip *</label>
-                  <select
-                    id="beer_type_id"
-                    value={formData.beer_type_id}
-                    onChange={(e) =>
-                      setFormData({ ...formData, beer_type_id: e.target.value })
-                    }
-                    required
-                  >
-                    <option value="">Odaberi tip</option>
-                    {beerTypes.map((t) => (
-                      <option key={t._id} value={t._id}>
-                        {t.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="beer_color_id">Boja *</label>
-                  <select
-                    id="beer_color_id"
-                    value={formData.beer_color_id}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        beer_color_id: e.target.value,
-                      })
-                    }
-                    required
-                  >
-                    <option value="">Odaberi boju</option>
-                    {beerColors.map((c) => (
-                      <option key={c._id} value={c._id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <FormInput
-                  formLabel="Alkohol (%)"
-                  name="alcohol_percentage"
-                  type="number"
-                  step="0.1"
-                  value={formData.alcohol_percentage}
+              <div className={styles.formGroup}>
+                <label htmlFor="beer_color_id">Boja *</label>
+                <select
+                  id="beer_color_id"
+                  value={formData.beer_color_id}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      alcohol_percentage: e.target.value,
+                      beer_color_id: e.target.value,
                     })
                   }
                   required
-                />
+                >
+                  <option value="">Odaberi boju</option>
+                  {beerColors.map((c) => (
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
+              <FormInput
+                formLabel="Alkohol (%)"
+                name="alcohol_percentage"
+                type="number"
+                step="0.1"
+                value={formData.alcohol_percentage}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    alcohol_percentage: e.target.value,
+                  })
+                }
+                required
+              />
+
+              <FormInput
+                formLabel="IBU"
+                name="ibu"
+                type="number"
+                value={formData.ibu}
+                onChange={(e) =>
+                  setFormData({ ...formData, ibu: e.target.value })
+                }
+              />
+
+              <FormInput
+                formLabel="Volumen (ml)"
+                name="volume_ml"
+                type="number"
+                value={formData.volume_ml}
+                onChange={(e) =>
+                  setFormData({ ...formData, volume_ml: e.target.value })
+                }
+              />
+
+              <FormInput
+                formLabel="Cijena (EUR)"
+                name="price"
+                type="number"
+                step="0.01"
+                value={formData.price}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
+                required
+              />
+
+              <FormInput
+                formLabel="URL Slike"
+                name="image_url"
+                type="url"
+                value={formData.image_url}
+                onChange={(e) =>
+                  setFormData({ ...formData, image_url: e.target.value })
+                }
+              />
+
+              <div className={styles.fullWidth}>
                 <FormInput
-                  formLabel="IBU"
-                  name="ibu"
-                  type="number"
-                  value={formData.ibu}
+                  formLabel="Opis"
+                  name="description"
+                  value={formData.description}
                   onChange={(e) =>
-                    setFormData({ ...formData, ibu: e.target.value })
+                    setFormData({ ...formData, description: e.target.value })
                   }
                 />
-
-                <FormInput
-                  formLabel="Volumen (ml)"
-                  name="volume_ml"
-                  type="number"
-                  value={formData.volume_ml}
-                  onChange={(e) =>
-                    setFormData({ ...formData, volume_ml: e.target.value })
-                  }
-                />
-
-                <FormInput
-                  formLabel="Cijena (EUR)"
-                  name="price"
-                  type="number"
-                  step="0.01"
-                  value={formData.price}
-                  onChange={(e) =>
-                    setFormData({ ...formData, price: e.target.value })
-                  }
-                  required
-                />
-
-                <FormInput
-                  formLabel="URL Slike"
-                  name="image_url"
-                  type="url"
-                  value={formData.image_url}
-                  onChange={(e) =>
-                    setFormData({ ...formData, image_url: e.target.value })
-                  }
-                />
-
-                <div className={styles.fullWidth}>
-                  <FormInput
-                    formLabel="Opis"
-                    name="description"
-                    value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
-                  />
-                </div>
-              </Form>
-            </FormModal>
-          )}
-        </main>
+              </div>
+            </Form>
+          </FormModal>
+        )}
       </div>
     </Layout>
   );
