@@ -11,7 +11,6 @@
 }
 
 .container {
-  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -19,7 +18,7 @@
 .hero {
   padding: 3rem 0;
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: grey;
   color: white;
   margin: 0 -2rem 3rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -140,7 +139,7 @@
   }
 
   &:focus {
-    outline: 2px solid #667eea;
+    outline: 2px solid black;
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -161,7 +160,7 @@
 }
 
 .producer {
-  color: #667eea;
+  color: black;
   font-weight: 600;
   font-size: 0.9rem;
   margin: 0 0 1rem;
@@ -207,7 +206,7 @@
 .price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #667eea;
+  color: black;
 }
 
 .loading {

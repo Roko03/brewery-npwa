@@ -104,7 +104,7 @@
 }
 
 .producer {
-  color: #667eea;
+  color: black;
   font-weight: 600;
   font-size: 0.9rem;
   margin: 0 0 0.5rem;
@@ -145,8 +145,8 @@
   justify-content: center;
 
   &:hover:not(:disabled) {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: black;
+    color: black;
   }
 
   &:disabled {
@@ -182,7 +182,7 @@
 .totalPrice {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #667eea;
+  color: black;
 }
 
 .removeBtn {
@@ -231,7 +231,7 @@
 
   &.total {
     border-bottom: none;
-    border-top: 2px solid #667eea;
+    border-top: 2px solid black;
     padding-top: 1.5rem;
     margin-top: 1rem;
     font-size: 1.5rem;
@@ -239,7 +239,7 @@
     color: #1a1a1a;
 
     span:last-child {
-      color: #667eea;
+      color: black;
     }
   }
 }

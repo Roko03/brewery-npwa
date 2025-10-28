@@ -14,13 +14,13 @@ const AdminHeader = () => {
   };
 
   const navItems = [
-    { path: "/admin", label: "Dashboard", icon: "🏠" },
-    { path: "/admin/beers", label: "Piva", icon: "🍺" },
-    { path: "/admin/beer-types", label: "Tipovi", icon: "📋" },
-    { path: "/admin/beer-colors", label: "Boje", icon: "🎨" },
-    { path: "/admin/producers", label: "Proizvođači", icon: "🏭" },
-    { path: "/admin/users", label: "Korisnici", icon: "👥" },
-    { path: "/admin/profile", label: "Profil", icon: "👥" },
+    { path: "/admin", label: "Dashboard" },
+    { path: "/admin/beers", label: "Piva" },
+    { path: "/admin/beer-types", label: "Tipovi" },
+    { path: "/admin/beer-colors", label: "Boje" },
+    { path: "/admin/producers", label: "Proizvođači" },
+    { path: "/admin/users", label: "Korisnici" },
+    { path: "/admin/profile", label: "Profil" },
   ];
 
   const isActive = (path) => {
@@ -33,12 +33,6 @@ const AdminHeader = () => {
   return (
     <header className={styles.adminHeader}>
       <div className={styles.container}>
-        <div className={styles.brand}>
-          <Link to="/admin" className={styles.logo}>
-            <h1>Admin Panel</h1>
-          </Link>
-        </div>
-
         <nav className={styles.nav}>
           <div className={styles.navLinks}>
             {navItems.map((item) => (
@@ -56,8 +50,7 @@ const AdminHeader = () => {
           </div>
 
           <div className={styles.userActions}>
-            <span className={styles.userName}>{user?.username}</span>
-            <Button variant="secondary" onClick={handleLogout} size="small">
+            <Button variant="secondary" onClick={handleLogout}>
               Odjava
             </Button>
           </div>
