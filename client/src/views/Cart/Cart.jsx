@@ -115,11 +115,11 @@ const Cart = () => {
                     <div className={styles.itemDetails}>
                       <h3>{item.beer?.name || "N/A"}</h3>
                       <p className={styles.producer}>
-                        {item.beer?.producer_id?.name || "N/A"}
+                        {item.beer?.producer_name || "N/A"}
                       </p>
                       <div className={styles.itemInfo}>
-                        <span>{item.beer?.beer_type_id?.name}</span>
-                        <span>{item.beer?.alcohol_content}%</span>
+                        <span>{item.beer?.beer_type_name || "N/A"}</span>
+                        <span>{item.beer?.alcohol_percentage || 0}%</span>
                       </div>
                     </div>
 
