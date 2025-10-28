@@ -16,7 +16,7 @@ export const SnackbarManagerProvider = ({ children }) => {
     isOpen: false,
   });
 
-  const showSnackbar = (variant, message) =>
+  const showSnackbar = (message, variant = "success") =>
     setSnackbar({ variant, message, isOpen: true });
 
   const hideSnackbar = () => {

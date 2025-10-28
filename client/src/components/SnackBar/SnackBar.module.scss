@@ -43,6 +43,15 @@
   color: $red;
 
   img {
-    color: $green;
+    color: $red;
+  }
+}
+
+.info {
+  background-color: $light-blue;
+  color: $primary;
+
+  img {
+    color: $primary;
   }
 }

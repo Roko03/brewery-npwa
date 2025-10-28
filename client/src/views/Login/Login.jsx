@@ -24,13 +24,13 @@ const Login = () => {
 
       if (!response.success) {
         showSnackbar(
-          "error",
-          response.error || "Pogrešna email adresa ili lozinka"
+          response.error || "Pogrešna email adresa ili lozinka",
+          "error"
         );
         return;
       }
 
-      showSnackbar("success", "Uspješna prijava!");
+      showSnackbar("Uspješna prijava!", "success");
 
       // Role-based redirect
       if (response.user.role === "ADMIN") {
@@ -39,7 +39,7 @@ const Login = () => {
         navigate("/");
       }
     } catch (error) {
-      showSnackbar("error", "Greška pri prijavi");
+      showSnackbar("Greška pri prijavi", "error");
     } finally {
       setLoading(false);
     }

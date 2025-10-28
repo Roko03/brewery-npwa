@@ -25,11 +25,11 @@ const Register = () => {
       });
 
       if (!response.success) {
-        showSnackbar("error", response.error || "Greška pri registraciji");
+        showSnackbar(response.error || "Greška pri registraciji", "error");
         return;
       }
 
-      showSnackbar("success", "Uspješna registracija!");
+      showSnackbar("Uspješna registracija!", "success");
 
       // Role-based redirect
       if (response.user.role === "ADMIN") {
@@ -38,7 +38,7 @@ const Register = () => {
         navigate("/");
       }
     } catch (error) {
-      showSnackbar("error", "Greška pri registraciji");
+      showSnackbar("Greška pri registraciji", "error");
     } finally {
       setLoading(false);
     }

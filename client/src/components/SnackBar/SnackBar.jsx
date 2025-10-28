@@ -14,6 +14,7 @@ const SnackBar = ({
     const iconType = {
       success: <Check />,
       error: <Close />,
+      info: <span style={{ fontSize: "20px" }}>ℹ️</span>,
     };
     return iconType[variant];
   };
