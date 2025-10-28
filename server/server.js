@@ -14,7 +14,7 @@ const beerColorRouter = require("./router/beer/beerColor");
 const beerTypeRouter = require("./router/beer/beerType");
 const beerRouter = require("./router/beer/beer");
 const favoritesRouter = require("./router/favorites");
-const cartRouter = require("./router/cart");
+const checkoutRouter = require("./router/checkout");
 const orderRouter = require("./router/order");
 
 const authenticationUser = require("./middleware/authentication");
@@ -60,7 +60,7 @@ app.use("/api/v1/beer", beerRouter);
 
 app.use("/api/v1/favorites", authenticationUser, favoritesRouter);
 
-app.use("/api/v1/cart", authenticationUser, cartRouter);
+app.use("/api/v1/checkout", authenticationUser, checkoutRouter);
 
 app.use("/api/v1/orders", authenticationUser, orderRouter);
 

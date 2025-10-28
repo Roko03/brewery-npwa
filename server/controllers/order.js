@@ -1,5 +1,4 @@
 const Order = require("../models/Order");
-const Cart = require("../models/Cart");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors");
 
