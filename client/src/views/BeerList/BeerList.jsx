@@ -6,7 +6,7 @@ import BeerService from "@/services/beer.service";
 import BeerTypeService from "@/services/beerType.service";
 import BeerColorService from "@/services/beerColor.service";
 import ProducerService from "@/services/producer.service";
-import { WishlistStorage } from "@/services/favorites.service";
+import { WishlistStorage } from "@/services/wishlist.service";
 import Table from "@/components/Table";
 import Layout from "@/components/Layout";
 import Pagination from "@/components/Pagination";

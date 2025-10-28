@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/context/AuthContext";
 import { useCart } from "@/hooks/context/CartContext";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import { useNavigate } from "react-router";
-import { WishlistStorage } from "@/services/favorites.service";
+import { WishlistStorage } from "@/services/wishlist.service";
 import Button from "@/components/Button";
 import styles from "./BeerCard.module.scss";
 

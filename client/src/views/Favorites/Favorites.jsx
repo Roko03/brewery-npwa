@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { WishlistStorage } from "@/services/favorites.service";
+import { WishlistStorage } from "@/services/wishlist.service";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import Button from "@/components/Button";
 import Layout from "@/components/Layout";

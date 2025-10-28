@@ -7,6 +7,7 @@ import BeerService from "@/services/beer.service";
 import BeerTypeService from "@/services/beerType.service";
 import BeerColorService from "@/services/beerColor.service";
 import ProducerService from "@/services/producer.service";
+import { WishlistStorage } from "@/services/wishlist.service";
 import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
 import Layout from "@/components/Layout";
@@ -25,6 +26,7 @@ const Home = () => {
   const [beerColors, setBeerColors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState({});
+  const [wishlist, setWishlist] = useState([]);
 
   const pageSize = 12;
   const currentPage = parseInt(searchParams.get("page") || "0", 10);
@@ -37,11 +39,17 @@ const Home = () => {
 
   useEffect(() => {
     fetchInitialData();
+    loadWishlist();
   }, []);
 
   useEffect(() => {
     fetchBeers();
   }, [searchParams]);
+
+  const loadWishlist = () => {
+    const wishlistData = WishlistStorage.getWishlist();
+    setWishlist(wishlistData);
+  };
 
   const fetchInitialData = async () => {
     try {
@@ -127,6 +135,22 @@ const Home = () => {
     }
   };
 
+  const handleToggleWishlist = (beer, e) => {
+    e.stopPropagation();
+
+    const isInWishlist = WishlistStorage.isInWishlist(beer._id);
+
+    if (isInWishlist) {
+      WishlistStorage.removeFromWishlist(beer._id);
+      showSnackbar("Uklonjeno iz liste želja", "info");
+    } else {
+      WishlistStorage.addToWishlist(beer);
+      showSnackbar("Dodano u listu želja", "success");
+    }
+
+    loadWishlist();
+  };
+
   const totalPages = Math.ceil(totalCount / pageSize);
 
   if (authLoading) {
@@ -206,7 +230,24 @@ const Home = () => {
                       </div>
                     )}
                     <div className={styles.beerContent}>
-                      <h3>{beer.name}</h3>
+                      <div className={styles.header}>
+                        <h3>{beer.name}</h3>
+                        <button
+                          className={`${styles.favoriteBtn} ${
+                            WishlistStorage.isInWishlist(beer._id)
+                              ? styles.active
+                              : ""
+                          }`}
+                          onClick={(e) => handleToggleWishlist(beer, e)}
+                          aria-label={
+                            WishlistStorage.isInWishlist(beer._id)
+                              ? "Ukloni iz liste želja"
+                              : "Dodaj u listu želja"
+                          }
+                        >
+                          {WishlistStorage.isInWishlist(beer._id) ? "❤️" : "🤍"}
+                        </button>
+                      </div>
                       <p className={styles.producer}>{beer.producer_name}</p>
                       <div className={styles.beerDetails}>
                         <span className={styles.type}>

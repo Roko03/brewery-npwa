@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/context/AuthContext";
 import { useCart } from "@/hooks/context/CartContext";
 import Button from "@/components/Button";
 import styles from "./Header.module.scss";
+import Cart from "@/components/SvgIcons/Cart";
 
 const Header = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -24,16 +25,9 @@ const Header = () => {
         <nav className={styles.nav}>
           {user ? (
             <>
-              <span className={styles.greeting}>Pozdrav, {user.username}!</span>
-
-              {user && (
-                <Link to="/cart" className={styles.cartLink}>
-                  <span className={styles.cartIcon}>🛒</span>
-                  {getCartCount() > 0 && (
-                    <span className={styles.cartBadge}>{getCartCount()}</span>
-                  )}
-                </Link>
-              )}
+              <Link to="/beers" className={styles.navLink}>
+                Lista piva
+              </Link>
 
               <Link to="/favorites" className={styles.navLink}>
                 Favoriti
@@ -52,6 +46,15 @@ const Header = () => {
               <Link to="/profile" className={styles.navLink}>
                 Profil
               </Link>
+
+              {user && (
+                <Link to="/cart" className={styles.cartLink}>
+                  <Cart />
+                  {getCartCount() > 0 && (
+                    <span className={styles.cartBadge}>{getCartCount()}</span>
+                  )}
+                </Link>
+              )}
 
               <Button variant="secondary" onClick={handleLogout}>
                 Odjava
