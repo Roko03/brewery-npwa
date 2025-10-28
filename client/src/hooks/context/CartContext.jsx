@@ -1,118 +1,66 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { useAuth } from "./AuthContext";
-import CartService from "@/services/cart.service";
+import {
+  getCartFromStorage,
+  addToCartStorage,
+  updateCartItemStorage,
+  removeFromCartStorage,
+  clearCartStorage,
+} from "@/utils/cartStorage";
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
-  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  const fetchCart = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      setLoading(true);
-      const response = await CartService.getCart();
-
-      if (response.success && response.entities) {
-        setCartItems(response.entities);
-      }
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
+  // Load cart from localStorage on mount
   useEffect(() => {
-    if (user) {
-      fetchCart();
-    } else {
-      // Clear cart when user logs out
-      setCartItems([]);
-    }
-  }, [user, fetchCart]);
+    const cart = getCartFromStorage();
+    setCartItems(cart);
+  }, []);
 
-  const addToCart = useCallback(async (beerId, quantity = 1) => {
-    if (!user) {
-      return { success: false, error: "User not authenticated" };
-    }
-
+  const addToCart = useCallback((beer, quantity = 1) => {
     try {
-      const response = await CartService.addToCart({
-        beer_id: beerId,
-        quantity,
-      });
-
-      if (response.success) {
-        await fetchCart(); // Refresh cart
-        return { success: true, message: response.message };
-      }
-
-      return { success: false, error: response.message };
+      const updatedCart = addToCartStorage(beer, quantity);
+      setCartItems(updatedCart);
+      return { success: true, message: "Pivo dodano u košaricu" };
     } catch (error) {
       console.error("Error adding to cart:", error);
       return { success: false, error: "Failed to add to cart" };
     }
-  }, [user, fetchCart]);
+  }, []);
 
-  const updateQuantity = useCallback(async (cartItemId, quantity) => {
-    if (!user) return { success: false };
-
+  const updateQuantity = useCallback((beerId, quantity) => {
     try {
-      const response = await CartService.updateCartItem(cartItemId, {
-        quantity,
-      });
-
-      if (response.success) {
-        await fetchCart(); // Refresh cart
-        return { success: true };
-      }
-
-      return { success: false };
+      const updatedCart = updateCartItemStorage(beerId, quantity);
+      setCartItems(updatedCart);
+      return { success: true };
     } catch (error) {
       console.error("Error updating quantity:", error);
       return { success: false };
     }
-  }, [user, fetchCart]);
+  }, []);
 
-  const removeFromCart = useCallback(async (cartItemId) => {
-    if (!user) return { success: false };
-
+  const removeFromCart = useCallback((beerId) => {
     try {
-      const response = await CartService.removeFromCart(cartItemId);
-
-      if (response.success) {
-        await fetchCart(); // Refresh cart
-        return { success: true };
-      }
-
-      return { success: false };
+      const updatedCart = removeFromCartStorage(beerId);
+      setCartItems(updatedCart);
+      return { success: true };
     } catch (error) {
       console.error("Error removing from cart:", error);
       return { success: false };
     }
-  }, [user, fetchCart]);
+  }, []);
 
-  const clearCart = useCallback(async () => {
-    if (!user) return { success: false };
-
+  const clearCart = useCallback(() => {
     try {
-      const response = await CartService.clearCart();
-
-      if (response.success) {
-        setCartItems([]);
-        return { success: true };
-      }
-
-      return { success: false };
+      const updatedCart = clearCartStorage();
+      setCartItems(updatedCart);
+      return { success: true };
     } catch (error) {
       console.error("Error clearing cart:", error);
       return { success: false };
     }
-  }, [user]);
+  }, []);
 
   const getCartCount = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -120,19 +68,18 @@ export const CartProvider = ({ children }) => {
 
   const getCartTotal = () => {
     return cartItems.reduce((total, item) => {
-      const price = item.beer_id?.price || 0;
+      const price = item.beer?.price || 0;
       return total + price * item.quantity;
     }, 0);
   };
 
   const value = {
     cartItems,
-    loading,
+    loading: false,
     addToCart,
     updateQuantity,
     removeFromCart,
     clearCart,
-    fetchCart,
     getCartCount,
     getCartTotal,
   };

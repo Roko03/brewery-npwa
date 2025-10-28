@@ -18,7 +18,7 @@ const BeerDetailsModal = ({ beer, isOpen, onClose, onWishlistChange }) => {
 
   if (!beer) return null;
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     if (!user) {
       navigate("/login");
       onClose();
@@ -28,7 +28,7 @@ const BeerDetailsModal = ({ beer, isOpen, onClose, onWishlistChange }) => {
     setAddingToCart(true);
 
     try {
-      const result = await addToCart(beer._id, 1);
+      const result = addToCart(beer, 1);
 
       if (result.success) {
         showSnackbar(result.message || "Dodano u košaricu", "success");

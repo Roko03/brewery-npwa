@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "@/hooks/context/CartContext";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
-import CartService from "@/services/cart.service";
+import CheckoutService from "@/services/checkout.service";
 import Button from "@/components/Button";
-import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import styles from "./Cart.module.scss";
 
@@ -12,7 +11,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const {
     cartItems,
-    loading,
     updateQuantity,
     removeFromCart,
     clearCart,
@@ -21,21 +19,21 @@ const Cart = () => {
   const { showSnackbar } = useSnackbar();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const handleQuantityChange = async (cartItemId, newQuantity) => {
+  const handleQuantityChange = (beerId, newQuantity) => {
     if (newQuantity < 1) return;
 
-    const result = await updateQuantity(cartItemId, newQuantity);
+    const result = updateQuantity(beerId, newQuantity);
     if (!result.success) {
       showSnackbar("Greška pri ažuriranju količine", "error");
     }
   };
 
-  const handleRemoveItem = async (cartItemId, beerName) => {
+  const handleRemoveItem = (beerId, beerName) => {
     if (!window.confirm(`Želite li ukloniti "${beerName}" iz košarice?`)) {
       return;
     }
 
-    const result = await removeFromCart(cartItemId);
+    const result = removeFromCart(beerId);
     if (result.success) {
       showSnackbar("Stavka uklonjena iz košarice", "success");
     } else {
@@ -43,12 +41,12 @@ const Cart = () => {
     }
   };
 
-  const handleClearCart = async () => {
+  const handleClearCart = () => {
     if (!window.confirm("Želite li isprazniti cijelu košaricu?")) {
       return;
     }
 
-    const result = await clearCart();
+    const result = clearCart();
     if (result.success) {
       showSnackbar("Košarica ispražnjena", "success");
     } else {
@@ -59,7 +57,7 @@ const Cart = () => {
   const handleCheckout = async () => {
     setCheckoutLoading(true);
     try {
-      const result = await CartService.createCheckoutSession();
+      const result = await CheckoutService.createCheckoutSession(cartItems);
 
       if (result.success && result.url) {
         // Save order data to sessionStorage for later use
@@ -80,15 +78,6 @@ const Cart = () => {
       setCheckoutLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className={styles.cart}>
-        <Header />
-        <div className={styles.loading}>Učitavanje košarice...</div>
-      </div>
-    );
-  }
 
   return (
     <Layout>
@@ -113,24 +102,24 @@ const Cart = () => {
             <>
               <div className={styles.cartItems}>
                 {cartItems.map((item) => (
-                  <div key={item._id} className={styles.cartItem}>
-                    {item.beer_id?.image_url && (
+                  <div key={item.beer_id} className={styles.cartItem}>
+                    {item.beer?.image_url && (
                       <div className={styles.itemImage}>
                         <img
-                          src={item.beer_id.image_url}
-                          alt={item.beer_id.name}
+                          src={item.beer.image_url}
+                          alt={item.beer.name}
                         />
                       </div>
                     )}
 
                     <div className={styles.itemDetails}>
-                      <h3>{item.beer_id?.name || "N/A"}</h3>
+                      <h3>{item.beer?.name || "N/A"}</h3>
                       <p className={styles.producer}>
-                        {item.beer_id?.producer_name || "N/A"}
+                        {item.beer?.producer_id?.name || "N/A"}
                       </p>
                       <div className={styles.itemInfo}>
-                        <span>{item.beer_id?.beer_type_name}</span>
-                        <span>{item.beer_id?.alcohol_percentage}%</span>
+                        <span>{item.beer?.beer_type_id?.name}</span>
+                        <span>{item.beer?.alcohol_content}%</span>
                       </div>
                     </div>
 
@@ -138,7 +127,7 @@ const Cart = () => {
                       <button
                         className={styles.quantityBtn}
                         onClick={() =>
-                          handleQuantityChange(item._id, item.quantity - 1)
+                          handleQuantityChange(item.beer_id, item.quantity - 1)
                         }
                         disabled={item.quantity <= 1}
                       >
@@ -148,7 +137,7 @@ const Cart = () => {
                       <button
                         className={styles.quantityBtn}
                         onClick={() =>
-                          handleQuantityChange(item._id, item.quantity + 1)
+                          handleQuantityChange(item.beer_id, item.quantity + 1)
                         }
                       >
                         +
@@ -157,11 +146,11 @@ const Cart = () => {
 
                     <div className={styles.itemPrice}>
                       <span className={styles.unitPrice}>
-                        €{(item.beer_id?.price || 0).toFixed(2)}
+                        €{(item.beer?.price || 0).toFixed(2)}
                       </span>
                       <span className={styles.totalPrice}>
                         €
-                        {((item.beer_id?.price || 0) * item.quantity).toFixed(
+                        {((item.beer?.price || 0) * item.quantity).toFixed(
                           2
                         )}
                       </span>
@@ -170,7 +159,7 @@ const Cart = () => {
                     <button
                       className={styles.removeBtn}
                       onClick={() =>
-                        handleRemoveItem(item._id, item.beer_id?.name)
+                        handleRemoveItem(item.beer_id, item.beer?.name)
                       }
                     >
                       ✕

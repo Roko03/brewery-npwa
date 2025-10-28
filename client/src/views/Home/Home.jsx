@@ -104,16 +104,16 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleAddToCart = async (beerId) => {
+  const handleAddToCart = async (beer) => {
     if (!user) {
       navigate("/login");
       return;
     }
 
-    setAddingToCart((prev) => ({ ...prev, [beerId]: true }));
+    setAddingToCart((prev) => ({ ...prev, [beer._id]: true }));
 
     try {
-      const result = await addToCart(beerId, 1);
+      const result = addToCart(beer, 1);
 
       if (result.success) {
         showSnackbar(result.message || "Dodano u košaricu", "success");
@@ -123,7 +123,7 @@ const Home = () => {
     } catch (error) {
       showSnackbar("Greška pri dodavanju u košaricu", "error");
     } finally {
-      setAddingToCart((prev) => ({ ...prev, [beerId]: false }));
+      setAddingToCart((prev) => ({ ...prev, [beer._id]: false }));
     }
   };
 
@@ -226,7 +226,7 @@ const Home = () => {
                         {user ? (
                           <Button
                             variant="primary"
-                            onClick={() => handleAddToCart(beer._id)}
+                            onClick={() => handleAddToCart(beer)}
                             disabled={addingToCart[beer._id]}
                           >
                             {addingToCart[beer._id]

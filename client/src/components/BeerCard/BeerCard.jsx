@@ -14,7 +14,7 @@ const BeerCard = ({ beer, onCardClick, onWishlistChange }) => {
   const navigate = useNavigate();
   const [addingToCart, setAddingToCart] = useState(false);
 
-  const handleAddToCart = async (e) => {
+  const handleAddToCart = (e) => {
     e.stopPropagation();
 
     if (!user) {
@@ -25,7 +25,7 @@ const BeerCard = ({ beer, onCardClick, onWishlistChange }) => {
     setAddingToCart(true);
 
     try {
-      const result = await addToCart(beer._id, 1);
+      const result = addToCart(beer, 1);
 
       if (result.success) {
         showSnackbar(result.message || "Dodano u košaricu", "success");
