@@ -8,6 +8,7 @@ import Table from "@/components/Table";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import FormSelect from "@/components/Forms/FormSelect";
 import Layout from "@/components/Layout";
 import styles from "./BeerTypeList.module.scss";
 import Form from "@/components/Forms/Form";
@@ -67,7 +68,10 @@ const BeerTypeList = () => {
 
   const handleEdit = (type) => {
     setEditingType(type);
-    setFormData({ name: type.name, beer_color_id: type.beer_color_id || "" });
+    setFormData({
+      name: type.name,
+      beer_color_id: type.beer_color_id || ""
+    });
     setIsModalOpen(true);
   };
 
@@ -180,27 +184,23 @@ const BeerTypeList = () => {
                   required
                 />
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="beer_color_id">Boja *</label>
-                  <select
-                    id="beer_color_id"
-                    value={formData.beer_color_id}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        beer_color_id: e.target.value,
-                      })
-                    }
-                    required
-                  >
-                    <option value="">Odaberi boju</option>
-                    {beerColors.map((color) => (
-                      <option key={color._id} value={color._id}>
-                        {color.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <FormSelect
+                  label="Boja"
+                  name="beer_color_id"
+                  value={formData.beer_color_id}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      beer_color_id: e.target.value,
+                    })
+                  }
+                  options={beerColors.map((color) => ({
+                    value: color._id,
+                    label: color.name,
+                  }))}
+                  placeholder="Odaberi boju"
+                  required
+                />
               </Form>
             </FormModal>
           </div>

@@ -13,6 +13,7 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import FormSelect from "@/components/Forms/FormSelect";
 import BeerCard from "@/components/BeerCard";
 import BeerDetailsModal from "@/components/BeerDetailsModal";
 import styles from "./BeerList.module.scss";
@@ -305,50 +306,41 @@ const BeerList = () => {
         </div>
 
         <div className={styles.filters}>
-          <div className={styles.filterGroup}>
-            <label>Proizvođač</label>
-            <select
-              value={filters.producer}
-              onChange={(e) => handleFilterChange("producer", e.target.value)}
-            >
-              <option value="">Svi proizvođači</option>
-              {producers.map((p) => (
-                <option key={p._id} value={p._id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Proizvođač"
+            name="producer_filter"
+            value={filters.producer}
+            onChange={(e) => handleFilterChange("producer", e.target.value)}
+            options={[
+              { value: "", label: "Svi proizvođači" },
+              ...producers.map((p) => ({ value: p._id, label: p.name })),
+            ]}
+            placeholder="Svi proizvođači"
+          />
 
-          <div className={styles.filterGroup}>
-            <label>Tip</label>
-            <select
-              value={filters.type}
-              onChange={(e) => handleFilterChange("type", e.target.value)}
-            >
-              <option value="">Svi tipovi</option>
-              {beerTypes.map((t) => (
-                <option key={t._id} value={t._id}>
-                  {t.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Tip"
+            name="type_filter"
+            value={filters.type}
+            onChange={(e) => handleFilterChange("type", e.target.value)}
+            options={[
+              { value: "", label: "Svi tipovi" },
+              ...beerTypes.map((t) => ({ value: t._id, label: t.name })),
+            ]}
+            placeholder="Svi tipovi"
+          />
 
-          <div className={styles.filterGroup}>
-            <label>Boja</label>
-            <select
-              value={filters.color}
-              onChange={(e) => handleFilterChange("color", e.target.value)}
-            >
-              <option value="">Sve boje</option>
-              {beerColors.map((c) => (
-                <option key={c._id} value={c._id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Boja"
+            name="color_filter"
+            value={filters.color}
+            onChange={(e) => handleFilterChange("color", e.target.value)}
+            options={[
+              { value: "", label: "Sve boje" },
+              ...beerColors.map((c) => ({ value: c._id, label: c.name })),
+            ]}
+            placeholder="Sve boje"
+          />
         </div>
 
         {isAdmin ? (
@@ -439,65 +431,53 @@ const BeerList = () => {
                 required
               />
 
-              <div className={styles.formGroup}>
-                <label htmlFor="producer_id">Proizvođač *</label>
-                <select
-                  id="producer_id"
-                  value={formData.producer_id}
-                  onChange={(e) =>
-                    setFormData({ ...formData, producer_id: e.target.value })
-                  }
-                  required
-                >
-                  <option value="">Odaberi proizvođača</option>
-                  {producers.map((p) => (
-                    <option key={p._id} value={p._id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <FormSelect
+                label="Proizvođač"
+                name="producer_id"
+                value={formData.producer_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, producer_id: e.target.value })
+                }
+                options={producers.map((p) => ({
+                  value: p._id,
+                  label: p.name,
+                }))}
+                placeholder="Odaberi proizvođača"
+                required
+              />
 
-              <div className={styles.formGroup}>
-                <label htmlFor="beer_type_id">Tip *</label>
-                <select
-                  id="beer_type_id"
-                  value={formData.beer_type_id}
-                  onChange={(e) =>
-                    setFormData({ ...formData, beer_type_id: e.target.value })
-                  }
-                  required
-                >
-                  <option value="">Odaberi tip</option>
-                  {beerTypes.map((t) => (
-                    <option key={t._id} value={t._id}>
-                      {t.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <FormSelect
+                label="Tip"
+                name="beer_type_id"
+                value={formData.beer_type_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, beer_type_id: e.target.value })
+                }
+                options={beerTypes.map((t) => ({
+                  value: t._id,
+                  label: t.name,
+                }))}
+                placeholder="Odaberi tip"
+                required
+              />
 
-              <div className={styles.formGroup}>
-                <label htmlFor="beer_color_id">Boja *</label>
-                <select
-                  id="beer_color_id"
-                  value={formData.beer_color_id}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      beer_color_id: e.target.value,
-                    })
-                  }
-                  required
-                >
-                  <option value="">Odaberi boju</option>
-                  {beerColors.map((c) => (
-                    <option key={c._id} value={c._id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <FormSelect
+                label="Boja"
+                name="beer_color_id"
+                value={formData.beer_color_id}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    beer_color_id: e.target.value,
+                  })
+                }
+                options={beerColors.map((c) => ({
+                  value: c._id,
+                  label: c.name,
+                }))}
+                placeholder="Odaberi boju"
+                required
+              />
 
               <FormInput
                 formLabel="Alkohol (%)"

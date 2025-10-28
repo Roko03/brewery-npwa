@@ -1,0 +1,120 @@
+@use "@/styles/utils/rem-calc" as *;
+@use "@/styles/settings/variables" as *;
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: rem-calc(8);
+  width: 100%;
+}
+
+.label {
+  font-size: rem-calc(14);
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: rem-calc(4);
+}
+
+.required {
+  color: #e53e3e;
+  font-size: rem-calc(16);
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  padding: rem-calc(12) rem-calc(40) rem-calc(12) rem-calc(16);
+  font-size: rem-calc(15);
+  font-weight: 500;
+  color: #2d3748;
+  background-color: white;
+  border: 2px solid #e2e8f0;
+  border-radius: rem-calc(10);
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: $primary-font-family;
+
+  &:hover {
+    border-color: #cbd5e0;
+    background-color: #f7fafc;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background-color: white;
+  }
+
+  &:disabled {
+    background-color: #f7fafc;
+    color: #a0aec0;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+  }
+
+  &.error {
+    border-color: #fc8181;
+
+    &:focus {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+    }
+  }
+
+  // Style for the placeholder option
+  option[value=""][disabled] {
+    color: #a0aec0;
+  }
+
+  // Style for regular options
+  option {
+    padding: rem-calc(12);
+    background-color: white;
+    color: #2d3748;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #edf2f7;
+    }
+  }
+}
+
+.arrow {
+  position: absolute;
+  right: rem-calc(16);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  .select:hover ~ & {
+    color: #2d3748;
+  }
+
+  .select:focus ~ & {
+    color: #667eea;
+  }
+
+  .select:disabled ~ & {
+    color: #cbd5e0;
+  }
+}
+
+.errorMessage {
+  font-size: rem-calc(13);
+  color: #e53e3e;
+  font-weight: 500;
+  margin-top: rem-calc(-4);
+}

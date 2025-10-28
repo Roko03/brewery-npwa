@@ -10,6 +10,7 @@ import ProducerService from "@/services/producer.service";
 import { WishlistStorage } from "@/services/wishlist.service";
 import Button from "@/components/Button";
 import Pagination from "@/components/Pagination";
+import FormSelect from "@/components/Forms/FormSelect";
 import Layout from "@/components/Layout";
 import styles from "./Home.module.scss";
 
@@ -167,50 +168,41 @@ const Home = () => {
           </div>
 
           <div className={styles.filters}>
-            <div className={styles.filterGroup}>
-              <label>Proizvođač</label>
-              <select
-                value={filters.producer}
-                onChange={(e) => handleFilterChange("producer", e.target.value)}
-              >
-                <option value="">Svi proizvođači</option>
-                {producers.map((p) => (
-                  <option key={p._id} value={p._id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              label="Proizvođač"
+              name="producer_filter"
+              value={filters.producer}
+              onChange={(e) => handleFilterChange("producer", e.target.value)}
+              options={[
+                { value: "", label: "Svi proizvođači" },
+                ...producers.map((p) => ({ value: p._id, label: p.name })),
+              ]}
+              placeholder="Svi proizvođači"
+            />
 
-            <div className={styles.filterGroup}>
-              <label>Tip</label>
-              <select
-                value={filters.type}
-                onChange={(e) => handleFilterChange("type", e.target.value)}
-              >
-                <option value="">Svi tipovi</option>
-                {beerTypes.map((t) => (
-                  <option key={t._id} value={t._id}>
-                    {t.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              label="Tip"
+              name="type_filter"
+              value={filters.type}
+              onChange={(e) => handleFilterChange("type", e.target.value)}
+              options={[
+                { value: "", label: "Svi tipovi" },
+                ...beerTypes.map((t) => ({ value: t._id, label: t.name })),
+              ]}
+              placeholder="Svi tipovi"
+            />
 
-            <div className={styles.filterGroup}>
-              <label>Boja</label>
-              <select
-                value={filters.color}
-                onChange={(e) => handleFilterChange("color", e.target.value)}
-              >
-                <option value="">Sve boje</option>
-                {beerColors.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              label="Boja"
+              name="color_filter"
+              value={filters.color}
+              onChange={(e) => handleFilterChange("color", e.target.value)}
+              options={[
+                { value: "", label: "Sve boje" },
+                ...beerColors.map((c) => ({ value: c._id, label: c.name })),
+              ]}
+              placeholder="Sve boje"
+            />
           </div>
 
           {loading ? (

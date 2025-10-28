@@ -8,6 +8,7 @@ import Pagination from "@/components/Pagination";
 import Button from "@/components/Button";
 import FormModal from "@/components/FormModal";
 import FormInput from "@/components/Forms/FormInput";
+import FormSelect from "@/components/Forms/FormSelect";
 import Layout from "@/components/Layout";
 import Form from "@/components/Forms/Form";
 import styles from "./UserList.module.scss";
@@ -271,20 +272,20 @@ const UserList = () => {
                   }
                 />
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="role">Uloga *</label>
-                  <select
-                    id="role"
-                    value={formData.role}
-                    onChange={(e) =>
-                      setFormData({ ...formData, role: e.target.value })
-                    }
-                    required
-                  >
-                    <option value="USER">USER</option>
-                    <option value="ADMIN">ADMIN</option>
-                  </select>
-                </div>
+                <FormSelect
+                  label="Uloga"
+                  name="role"
+                  value={formData.role}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                  options={[
+                    { value: "USER", label: "USER" },
+                    { value: "ADMIN", label: "ADMIN" },
+                  ]}
+                  placeholder="Odaberi ulogu"
+                  required
+                />
               </Form>
             </FormModal>
           </div>

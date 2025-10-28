@@ -46,33 +46,6 @@
     background: $white;
     border-radius: 8px;
     box-shadow: $box-shadow;
-
-    .filterGroup {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      label {
-        font-weight: 600;
-        font-size: 0.875rem;
-        color: $black;
-      }
-
-      select {
-        padding: 0.5rem;
-        border: 1px solid $grey;
-        border-radius: 4px;
-        font-size: 0.875rem;
-        background: $white;
-        cursor: pointer;
-        transition: border-color $animation-duration-fast;
-
-        &:focus {
-          outline: none;
-          border-color: $primary;
-        }
-      }
-    }
   }
 
   .actions {
@@ -121,33 +94,6 @@
 
     .fullWidth {
       grid-column: 1 / -1;
-    }
-
-    .formGroup {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      label {
-        font-weight: 600;
-        font-size: 0.875rem;
-        color: $black;
-      }
-
-      select {
-        padding: 0.75rem;
-        border: 1px solid $grey;
-        border-radius: 4px;
-        font-size: 1rem;
-        background: $white;
-        cursor: pointer;
-        transition: border-color $animation-duration-fast;
-
-        &:focus {
-          outline: none;
-          border-color: $primary;
-        }
-      }
     }
   }
 }
