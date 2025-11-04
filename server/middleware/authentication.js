@@ -3,10 +3,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
-  // Try to get token from cookies first
   let token = req.cookies.accessToken;
 
-  // If not in cookies, try Authorization header
   if (!token) {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer ")) {

@@ -10,19 +10,18 @@ const register = async (req, res) => {
   const accessToken = user.genereteAccessToken();
   const refreshToken = user.generateRefreshToken();
 
-  // Set HTTP-only cookies
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 1000, // 1 hour
+    maxAge: 60 * 60 * 1000,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.status(StatusCodes.CREATED).json({
@@ -58,7 +57,6 @@ const login = async (req, res) => {
   const accessToken = user.genereteAccessToken();
   const refreshToken = user.generateRefreshToken();
 
-  // Set HTTP-only cookies
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -85,7 +83,6 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  // Clear cookies
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
 

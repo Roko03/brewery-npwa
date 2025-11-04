@@ -11,15 +11,11 @@ const {
 
 const roleAuthentication = require("../middleware/role-authentication");
 
-// User routes - get their own orders
 router.route("/").get(getUserOrders).post(createOrder);
 
 router.route("/:id").get(getOrderById);
 
-// Admin routes - manage all orders
-router
-  .route("/admin/all")
-  .get(roleAuthentication(["ADMIN"]), getAllOrders);
+router.route("/admin/all").get(roleAuthentication(["ADMIN"]), getAllOrders);
 
 router
   .route("/admin/:id")

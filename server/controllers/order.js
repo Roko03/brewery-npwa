@@ -20,7 +20,6 @@ const createOrder = async (req, res) => {
     throw new BadRequestError("Narudžba mora imati barem jednu stavku");
   }
 
-  // Create order
   const order = await Order.create({
     user_id: userId,
     stripe_session_id,

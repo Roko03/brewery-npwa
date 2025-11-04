@@ -12,11 +12,9 @@ const {
 const authenticationUser = require("../middleware/authentication");
 const roleAuthentication = require("../middleware/role-authentication");
 
-// Public routes (for filters)
 router.route("/").get(getAllProducers);
 router.route("/:id").get(getProducer);
 
-// Admin-only routes
 router
   .route("/")
   .post(authenticationUser, roleAuthentication(["ADMIN"]), makeProducer);

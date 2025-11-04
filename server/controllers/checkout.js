@@ -10,7 +10,6 @@ const createCheckoutSession = async (req, res) => {
     throw new BadRequestError("Košarica je prazna");
   }
 
-  // Prepare order items snapshot from client cart
   const orderItems = cartItems.map((item) => ({
     beer_id: item.beer_id,
     beer_name: item.beer.name,
@@ -22,10 +21,8 @@ const createCheckoutSession = async (req, res) => {
     subtotal: item.beer.price * item.quantity,
   }));
 
-  // Calculate total
   const totalAmount = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
 
-  // Convert cart items to Stripe line items
   const lineItems = cartItems.map((item) => {
     const beer = item.beer;
     return {
@@ -33,21 +30,24 @@ const createCheckoutSession = async (req, res) => {
         currency: "eur",
         product_data: {
           name: beer.name,
-          description: `${beer.producer_id?.name || "N/A"} - ${beer.beer_type_id?.name || "N/A"}`,
+          description: `${beer.producer_id?.name || "N/A"} - ${
+            beer.beer_type_id?.name || "N/A"
+          }`,
           images: beer.image_url ? [beer.image_url] : [],
         },
-        unit_amount: Math.round(beer.price * 100), // Convert to cents
+        unit_amount: Math.round(beer.price * 100),
       },
       quantity: item.quantity,
     };
   });
 
-  // Create Stripe checkout session with metadata
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: `${process.env.CLIENT_URL || "http://localhost:5173"}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${
+      process.env.CLIENT_URL || "http://localhost:5173"
+    }/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.CLIENT_URL || "http://localhost:5173"}/cart`,
     customer_email: req.user.email,
     metadata: {
