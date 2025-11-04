@@ -15,8 +15,8 @@ const createCheckoutSession = async (req, res) => {
     beer_name: item.beer.name,
     beer_price: item.beer.price,
     beer_image_url: item.beer.image_url,
-    producer_name: item.beer.producer_id?.name || "N/A",
-    beer_type_name: item.beer.beer_type_id?.name || "N/A",
+    producer_name: item.beer.producer_name || "N/A",
+    beer_type_name: item.beer.beer_type_name || "N/A",
     quantity: item.quantity,
     subtotal: item.beer.price * item.quantity,
   }));
@@ -30,8 +30,8 @@ const createCheckoutSession = async (req, res) => {
         currency: "eur",
         product_data: {
           name: beer.name,
-          description: `${beer.producer_id?.name || "N/A"} - ${
-            beer.beer_type_id?.name || "N/A"
+          description: `${beer.producer_name || "N/A"} - ${
+            beer.beer_type_name || "N/A"
           }`,
           images: beer.image_url ? [beer.image_url] : [],
         },

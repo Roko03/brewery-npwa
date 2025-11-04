@@ -48,7 +48,6 @@ app.use(
   usersRouter
 );
 
-// Public GET access for producers (for filters)
 app.use("/api/v1/producers", producersRouter);
 
 app.use("/api/v1/beer-color", beerColorRouter);
