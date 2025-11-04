@@ -4,7 +4,7 @@ import { useCart } from "@/hooks/context/CartContext";
 import { useSnackbar } from "@/hooks/context/SnackbarContext";
 import OrderService from "@/services/order.service";
 import Button from "@/components/Button";
-import Header from "@/components/Header";
+import Layout from "@/components/Layout";
 import styles from "./CheckoutSuccess.module.scss";
 
 const CheckoutSuccess = () => {
@@ -61,14 +61,13 @@ const CheckoutSuccess = () => {
 
   if (loading) {
     return (
-      <div className={styles.checkoutSuccess}>
-        <Header />
+      <Layout>
         <main className={styles.main}>
           <div className={styles.container}>
             <div className={styles.loading}>Procesiranje narudžbe...</div>
           </div>
         </main>
-      </div>
+      </Layout>
     );
   }
 
