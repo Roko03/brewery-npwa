@@ -111,7 +111,6 @@ const ProducerList = () => {
     try {
       const submitData = { ...formData };
 
-      // Convert founded_year to number if provided
       if (submitData.founded_year) {
         submitData.founded_year = Number(submitData.founded_year);
       }

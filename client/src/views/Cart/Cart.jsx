@@ -9,13 +9,8 @@ import styles from "./Cart.module.scss";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const {
-    cartItems,
-    updateQuantity,
-    removeFromCart,
-    clearCart,
-    getCartTotal,
-  } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } =
+    useCart();
   const { showSnackbar } = useSnackbar();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
@@ -60,14 +55,12 @@ const Cart = () => {
       const result = await CheckoutService.createCheckoutSession(cartItems);
 
       if (result.success && result.url) {
-        // Save order data to sessionStorage for later use
         if (result.orderData) {
           sessionStorage.setItem(
             "pendingOrder",
             JSON.stringify(result.orderData)
           );
         }
-        // Redirect to Stripe checkout page
         window.location.href = result.url;
       } else {
         showSnackbar("Greška pri kreiranju sesije plaćanja", "error");
@@ -105,10 +98,7 @@ const Cart = () => {
                   <div key={item.beer_id} className={styles.cartItem}>
                     {item.beer?.image_url && (
                       <div className={styles.itemImage}>
-                        <img
-                          src={item.beer.image_url}
-                          alt={item.beer.name}
-                        />
+                        <img src={item.beer.image_url} alt={item.beer.name} />
                       </div>
                     )}
 
@@ -149,10 +139,7 @@ const Cart = () => {
                         €{(item.beer?.price || 0).toFixed(2)}
                       </span>
                       <span className={styles.totalPrice}>
-                        €
-                        {((item.beer?.price || 0) * item.quantity).toFixed(
-                          2
-                        )}
+                        €{((item.beer?.price || 0) * item.quantity).toFixed(2)}
                       </span>
                     </div>
 

@@ -24,7 +24,6 @@ const CheckoutSuccess = () => {
       }
 
       try {
-        // Get order data from sessionStorage (saved during checkout)
         const orderDataStr = sessionStorage.getItem("pendingOrder");
 
         if (!orderDataStr) {
@@ -35,7 +34,6 @@ const CheckoutSuccess = () => {
 
         const orderData = JSON.parse(orderDataStr);
 
-        // Create order in database
         const result = await OrderService.createOrder({
           stripe_session_id: sessionId,
           items: orderData.items,
@@ -45,9 +43,7 @@ const CheckoutSuccess = () => {
 
         if (result.success) {
           setOrderNumber(result.entity.order_number);
-          // Clear the cart after successful order creation
           await clearCart();
-          // Remove pending order from sessionStorage
           sessionStorage.removeItem("pendingOrder");
         } else {
           showSnackbar("Greška pri spremanju narudžbe", "error");

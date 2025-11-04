@@ -19,7 +19,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <h1>Beer Catalog</h1>
+          <h1>Katalog piva</h1>
         </Link>
 
         <nav className={styles.nav}>

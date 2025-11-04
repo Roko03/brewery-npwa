@@ -163,7 +163,7 @@ const Home = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={styles.hero}>
-            <h1>Dobrodošli u Beer Catalog</h1>
+            <h1>Dobrodošli u katalog piva</h1>
             <p>Otkrijte širok izbor piva iz cijelog svijeta</p>
           </div>
 

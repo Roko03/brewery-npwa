@@ -49,7 +49,6 @@ const BeerList = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Get initial values from URL
   const pageSize = 10;
   const currentPage = parseInt(searchParams.get("page") || "0", 10);
   const [totalCount, setTotalCount] = useState(0);
@@ -93,7 +92,6 @@ const BeerList = () => {
         ...filters,
       };
 
-      // Remove empty filters
       Object.keys(params).forEach((key) => {
         if (params[key] === "") delete params[key];
       });
@@ -174,7 +172,6 @@ const BeerList = () => {
     try {
       const submitData = { ...formData };
 
-      // Convert numeric fields
       if (submitData.alcohol_percentage)
         submitData.alcohol_percentage = Number(submitData.alcohol_percentage);
       if (submitData.ibu) submitData.ibu = Number(submitData.ibu);
@@ -213,7 +210,6 @@ const BeerList = () => {
       newParams.delete(filterName);
     }
 
-    // Reset to first page when filtering
     newParams.set("page", "0");
     setSearchParams(newParams);
   };

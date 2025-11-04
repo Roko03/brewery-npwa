@@ -32,7 +32,6 @@ const UserList = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Get pagination from URL
   const pageSize = 10;
   const currentPage = parseInt(searchParams.get("page") || "0", 10);
   const [totalCount, setTotalCount] = useState(0);
@@ -80,7 +79,7 @@ const UserList = () => {
     setFormData({
       username: user.username,
       email: user.email,
-      password: "", // Don't prefill password for security
+      password: "",
       bio: user.bio || "",
       role: user.role,
     });
@@ -116,7 +115,6 @@ const UserList = () => {
 
     try {
       if (editingUser) {
-        // Update user
         const updateData = {
           username: formData.username,
           email: formData.email,
@@ -124,7 +122,6 @@ const UserList = () => {
           role: formData.role,
         };
 
-        // Only include password if it's been changed
         if (formData.password && formData.password.trim() !== "") {
           updateData.password = formData.password;
         }
@@ -132,7 +129,6 @@ const UserList = () => {
         await UserService.updateUser(editingUser._id, updateData);
         showSnackbar("Korisnik uspješno ažuriran", "success");
       } else {
-        // Create new user
         await UserService.createUser(formData);
         showSnackbar("Korisnik uspješno kreiran", "success");
       }

@@ -25,14 +25,15 @@ const Table = ({ columns, data, actions, emptyMessage = "Nema podataka" }) => {
                       : row[column.key]}
                   </td>
                 ))}
-                {actions && (
-                  <td className={styles.actions}>{actions(row)}</td>
-                )}
+                {actions && <td className={styles.actions}>{actions(row)}</td>}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length + (actions ? 1 : 0)} className={styles.empty}>
+              <td
+                colSpan={columns.length + (actions ? 1 : 0)}
+                className={styles.empty}
+              >
                 {emptyMessage}
               </td>
             </tr>
