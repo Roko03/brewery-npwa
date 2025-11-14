@@ -1,9 +1,9 @@
-export const UserRole = {
+const UserRole = {
   ADMIN: "ADMIN",
   USER: "USER",
 };
 
-export const BeerColor = {
+const BeerColor = {
   ZLATNA: "Zlatna",
   JANTARNA: "Jantarna",
   TAMNO_JANTARNA: "Tamno jantarna",
@@ -12,7 +12,7 @@ export const BeerColor = {
   CRNA: "Crna",
 };
 
-export const BeerType = {
+const BeerType = {
   IPA: "IPA",
   LAGER: "Lager",
   STOUT: "Stout",
@@ -23,5 +23,13 @@ export const BeerType = {
   SOUR: "Sour",
 };
 
-export const PAGE_NUMBER = 0;
-export const PAGE_SIZE = 10;
+const PAGE_NUMBER = 0;
+const PAGE_SIZE = 10;
+
+module.exports = {
+  UserRole,
+  BeerColor,
+  BeerType,
+  PAGE_NUMBER,
+  PAGE_SIZE,
+};
