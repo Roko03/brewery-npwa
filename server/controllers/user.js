@@ -84,10 +84,39 @@ const deleteUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: "Korisnik uspješno izbrisan" });
 };
 
+const changePassword = async (req, res) => {
+  const {
+    body: { oldPassword, newPassword },
+    params: { id: userId },
+  } = req;
+
+  if (!oldPassword || !newPassword) {
+    throw new BadRequestError("Stara i nova lozinka su obavezni");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new NotFoundError("Korisnik ne postoji");
+  }
+
+  const isPasswordCorrect = await user.comparePassword(oldPassword);
+
+  if (!isPasswordCorrect) {
+    throw new BadRequestError("Stara lozinka nije ispravna");
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.status(StatusCodes.OK).json({ message: "Lozinka uspješno promijenjena" });
+};
+
 module.exports = {
   getAllUsers,
   makeUser,
   getUser,
   updateUser,
   deleteUser,
+  changePassword,
 };
