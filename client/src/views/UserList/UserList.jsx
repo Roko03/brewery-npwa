@@ -231,6 +231,7 @@ const UserList = () => {
                     setFormData({ ...formData, username: e.target.value })
                   }
                   required
+                  disabled
                 />
 
                 <FormInput
@@ -242,32 +243,8 @@ const UserList = () => {
                     setFormData({ ...formData, email: e.target.value })
                   }
                   required
+                  disabled
                 />
-
-                <FormInput
-                  formLabel={
-                    editingUser
-                      ? "Lozinka (ostavi prazno ako ne mijenjate)"
-                      : "Lozinka"
-                  }
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
-                  required={!editingUser}
-                />
-
-                <FormInput
-                  formLabel="Bio"
-                  name="bio"
-                  value={formData.bio}
-                  onChange={(e) =>
-                    setFormData({ ...formData, bio: e.target.value })
-                  }
-                />
-
                 <FormSelect
                   label="Uloga"
                   name="role"
@@ -282,6 +259,20 @@ const UserList = () => {
                   placeholder="Odaberi ulogu"
                   required
                 />
+                {editingUser && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <a
+                      href={`/admin/change-password?userId=${editingUser._id}`}
+                      style={{
+                        color: "#007bff",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Promijeni lozinku
+                    </a>
+                  </div>
+                )}
               </Form>
             </FormModal>
           </div>

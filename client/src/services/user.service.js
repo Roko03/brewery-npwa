@@ -88,4 +88,24 @@ export default class UserService {
       return { success: false, error };
     }
   };
+
+  static changePassword = async (id, data) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_WS_API_URL}/users/${id}/change-password`,
+        {
+          ...PUT_REQUEST_PARAMETERS,
+          credentials: "include",
+          body: JSON.stringify(data),
+        }
+      );
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || "Greška pri promjeni lozinke");
+      }
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
 }

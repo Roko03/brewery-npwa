@@ -11,6 +11,7 @@ import BeerTypeList from "@/views/BeerTypeList";
 import BeerColorList from "@/views/BeerColorList";
 import ProducerList from "@/views/ProducerList";
 import UserList from "@/views/UserList";
+import ChangePassword from "@/views/ChangePassword";
 import Favorites from "@/views/Favorites";
 import Cart from "@/views/Cart";
 import CheckoutSuccess from "@/views/CheckoutSuccess";
@@ -118,6 +119,14 @@ const AppRouter = () => (
           element={
             <ProtectedRoute requireAdmin={true}>
               <UserList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/change-password"
+          element={
+            <ProtectedRoute requireAdmin={true}>
+              <ChangePassword />
             </ProtectedRoute>
           }
         />
